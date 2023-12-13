@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "compile": "tailwindcss build -i /home/sam/Programming/Projects/api-data-aggregator/frontend/src/tailwind.css -o /home/sam/Programming/Projects/api-data-aggregator/frontend/src/index.css -watch",
+    "compile": "tailwindcss build -i /home/sam/Programming/Projects/api-data-aggregator/frontend/src/tailwind.css -o /home/sam/Programming/Projects/api-data-aggregator/frontend/src/index.css --watch",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
