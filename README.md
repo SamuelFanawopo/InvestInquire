@@ -1,0 +1,7 @@
+Developing a comprehensive Financial Data Aggregator application to enhance skills in TypeScript, GraphQL, React, and Firebase. Utilized the Alpha Vantage API to fetch real-time financial data, company information, and news updates. Integrated Chart.js for dynamic and interactive stock graphs. Features to be included:
+
+  - User-Friendly Interface: Crafted a multi-screen layout comprising a Dashboard, Login, Registration, Latest News, Company Profiles, Detailed Info, and User Profile screens.
+  - Dynamic Dashboard: Featured a grid layout displaying the latest financial news, market trends, top stock gainers/losers, trading times in GMT, and currency exchange rates for digital and physical currencies.
+  - Interactive Company Screen: Showcased detailed company information with financial graphs using Chart.js, balance sheets, and cash flow statements, plus options to add companies to a user watchlist.    Latest News and Information: Implemented news screen with grid-based news items and pagination, and an info screen with in-depth company financials.
+  - Secure User Authentication: Enabled login and registration functionality with email/password and social media integrations (Google, Facebook, Twitter). Incorporated robust password management and reset features.
+  - Personalized User Profile: Provided profile customization, including settings updates and a personalized watchlist with stock performance details.
