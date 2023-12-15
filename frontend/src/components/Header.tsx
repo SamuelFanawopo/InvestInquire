@@ -8,17 +8,15 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ name }) => {
   return (
-    <header className="flex items-center justify-between w-full px-4 my-5">
-      <h1 className="text-3xl font-bold flex-shrink-0">InvestInquire</h1>
-      <div className="flex items-center justify-end flex-grow">
+    <header className="flex my-6 mx-10">
+      <h1 className="text-3xl font-bold">InvestInquire</h1>
+      <div className="ml-auto mr-4">
         <TickerSearch
-          searchBoxStyling="border border-black border-4 rounded-lg py-0.5 pl-0.5 flex-shrink-0"
-          textStyling="border border-[#2A3439] ml-3 border-4 rounded-md p-0.5 flex-shrink-0"
+          searchBoxStyling="border border-black border-4 rounded-lg py-0.5 pl-0.5"
+          textStyling="border border-[#2A3439] ml-3 mr-10 border-4 rounded-md px-1"
         />
-        <h2 className="text-xl font-bold ml-4 flex-shrink-0">
-          Welcome, {name}
-        </h2>
       </div>
+      <h2 className="text-xl font-bold">Welcome, {name}</h2>
     </header>
   );
 };
