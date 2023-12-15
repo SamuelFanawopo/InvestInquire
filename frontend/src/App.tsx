@@ -1,13 +1,14 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import DashboardScreen from "./screens/DashboardScreen";
 
 const App = () => {
   return (
-    <div className="">
+    <>
       <Header name="John Doe" />
-      <h1>Hello from React</h1>
+      <DashboardScreen />
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -12,7 +12,7 @@ const MarketInfo: React.FC<MarketInfoProps> = () => {
   return (
     <div>
       {/* Market information content goes here */}
-      <h1>Market Information</h1>
+      <h1>Top gainers, losers, and top performing US stocks</h1>
       {/* Display market data here, like stock indices, commodity prices, etc. */}
     </div>
   );
