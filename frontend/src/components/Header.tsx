@@ -12,7 +12,7 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
       <h1 className="text-4xl font-bold">InvestInquire</h1>
       <div className="ml-auto mr-4">
         <TickerSearch
-          searchBoxStyling="border border-black border-4 rounded-lg py-0.5 pl-0.5"
+          searchBoxStyling="border-black border-4 rounded-lg py-0.5 pl-0.5"
           textStyling="border border-[#2A3439] ml-3 mr-10 border-4 rounded-md px-1"
         />
       </div>
