@@ -25,7 +25,7 @@ const MarketTimes: React.FC<MarketTimesProps> = ({
 
   // Each market time report structured as a grid item
   const marketTimeReport = (key: number) => (
-    <div key={key} className="p-4 border rounded shadow-sm">
+    <div key={key} className="p-4 border rounded shadow-md ml-2">
       <p className="font-semibold">
         Market Type: <span className="font-normal">{marketType}</span>
       </p>

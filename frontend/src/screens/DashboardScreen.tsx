@@ -41,7 +41,13 @@ const DashboardScreen: React.FC<DashboardScreenProps> = () => {
       <div className="col-span-1">
         {/* MarketInfo and ExchangeRate in the right column */}
         <ExchangeRate />
-        <MarketInfo />
+        <MarketInfo
+          ticker="NXLIW"
+          price="0.0343"
+          change="0.0254"
+          changePercent="285.3933%"
+          volume="1"
+        />
       </div>
     </div>
   );

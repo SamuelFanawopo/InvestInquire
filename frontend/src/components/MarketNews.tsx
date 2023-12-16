@@ -23,14 +23,14 @@ const MarketNews: React.FC<MarketNewsProps> = ({
 }) => {
   return (
     <div>
-      <div className="flex flex-col items-center w-full ml-1">
+      <div className="flex flex-col items-center w-full ml-2">
         <h1 className="font-bold text-3xl text-center my-6">
           Latest Financial News
         </h1>
-        <div className="w-full mb-4">
+        <div className="w-full mb-3">
           {/* First news item taking up the full width */}
           <a href={source} className="block">
-            <h2 className="font-bold text-xl mb-2 text-center">{title}</h2>
+            <h2 className="font-bold text-xl mb-5 text-center">{title}</h2>
             <img src={image1} alt={title} className="w-full rounded-md" />
             <p>Published: {timePublished}</p>
           </a>
