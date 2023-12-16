@@ -24,7 +24,9 @@ const MarketNews: React.FC<MarketNewsProps> = ({
   return (
     <div>
       <div className="flex flex-col items-center w-full ml-1">
-        <h1 className="font-bold text-3xl text-center my-6">Market News</h1>
+        <h1 className="font-bold text-3xl text-center my-6">
+          Latest Financial News
+        </h1>
         <div className="w-full mb-4">
           {/* First news item taking up the full width */}
           <a href={source} className="block">

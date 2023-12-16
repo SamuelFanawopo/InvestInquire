@@ -40,8 +40,9 @@ const DashboardScreen: React.FC<DashboardScreenProps> = () => {
       {/* Right Column Container */}
       <div className="col-span-1">
         {/* MarketInfo and ExchangeRate in the right column */}
-        <MarketInfo />
+
         <ExchangeRate currencyFrom="Bitcoin" currencyTo="GBP" />
+        <MarketInfo />
       </div>
     </div>
   );
