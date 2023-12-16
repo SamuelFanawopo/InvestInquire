@@ -16,7 +16,7 @@ const ExchangeRate = () => {
   return (
     <div className="p-4 mt-4 bg-white rounded-lg">
       <h1 className="text-center font-bold text-2xl mb-6">
-        Exchange Rate for Digital and Physical Currency
+        Exchange Rate for Digital and Physical Currencies
       </h1>
       <div className="flex flex-col items-center mb-6">
         <input
