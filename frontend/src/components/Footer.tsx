@@ -10,9 +10,9 @@ const Footer: React.FC<FooterProps> = () => {
   // Component logic goes here
 
   return (
-    <footer className="flex flex-col h-screen">
+    <footer className="flex flex-col h-screen mt-10">
       {/* Footer content goes here */}
-      <p className="mt-auto mb-4 flex justify-center">
+      <p className="mt-5 mb-4 flex justify-center">
         InvestInquire © {new Date().getFullYear()}
       </p>
     </footer>
