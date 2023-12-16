@@ -61,7 +61,7 @@ const MarketNews: React.FC<MarketNewsProps> = ({
         </div>
       </div>
       <div className="w-full flex justify-end">
-        <button className="bg-blue-800 text-white rounded-md py-1 px-2 mt-4">
+        <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 transition duration-300 mt-6">
           More News
         </button>
       </div>

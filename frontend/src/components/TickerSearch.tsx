@@ -1,37 +1,26 @@
+// TickerSearch component
 import React, { useState } from "react";
-import "../index.css";
-// Define the props for the component, if needed
-interface TickerSearchProps {
-  // Props can include a callback function for when a search is performed
-  onSearch?: (ticker: string) => void;
-  searchBoxStyling: string;
-  textStyling: string;
-}
 
-// Define the TickerSearch component
-const TickerSearch: React.FC<TickerSearchProps> = ({
-  onSearch,
-  searchBoxStyling,
-  textStyling,
-}) => {
+const TickerSearch = () => {
   const [ticker, setTicker] = useState("");
 
   const handleSearch = () => {
-    if (onSearch) {
-      onSearch(ticker);
-    }
+    // Implement your search logic here
   };
 
   return (
-    <div>
+    <div className="flex">
       <input
-        className={searchBoxStyling}
+        className="border-gray-300 border-2 rounded-lg py-2 px-4 w-full max-w-xs"
         type="text"
         value={ticker}
         onChange={(e) => setTicker(e.target.value)}
         placeholder="Enter ticker symbol"
       />
-      <button onClick={handleSearch} className={textStyling}>
+      <button
+        onClick={handleSearch}
+        className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 transition duration-300 ml-2"
+      >
         Search
       </button>
     </div>
