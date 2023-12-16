@@ -9,7 +9,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ name }) => {
   return (
     <header className="flex my-6 mx-10">
-      <h1 className="text-3xl font-bold">InvestInquire</h1>
+      <h1 className="text-4xl font-bold">InvestInquire</h1>
       <div className="ml-auto mr-4">
         <TickerSearch
           searchBoxStyling="border border-black border-4 rounded-lg py-0.5 pl-0.5"
