@@ -1,17 +1,11 @@
-import React from "react";
-
-// Assuming you have a structure for balance sheet data
-interface BalanceSheetProps {
-  ticker: string;
-}
-
-const BalanceSheet: React.FC<BalanceSheetProps> = ({ ticker }) => {
+const BalanceSheet = () => {
   // You can add more logic or computations as needed
 
   return (
-    <div>
-      <h1>Balance Sheet</h1>
-      <p>Ticker: {ticker}</p>
+    <div className="flex justify-center items-center">
+      <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 transition duration-300 mt-6">
+        View Balance Sheet
+      </button>
     </div>
   );
 };

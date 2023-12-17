@@ -50,7 +50,9 @@ const FinancialGraph: React.FC<FinancialGraphProps> = ({ ticker }) => {
 
   return (
     <div>
-      <h1>Financial Graph for {ticker}</h1>
+      <h1 className="font-bold text-2xl text-center mb-5">
+        Daily Prices (open, high, low, close) and Volumes for {ticker}
+      </h1>
       <Line data={chartData} options={options} />
     </div>
   );

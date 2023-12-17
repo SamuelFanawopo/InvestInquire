@@ -35,7 +35,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ companyId }) => {
   return (
     <div>
       <Header name="Guest" />
-      <div className="max-w-7xl p-4">
+      <div className="max-w p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="col-span-1 space-y-4">
             {/* Company Information */}
@@ -76,8 +76,8 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ companyId }) => {
           </div>
           <div className="col-span-1">
             <FinancialGraph ticker={companyId} />
-            <BalanceSheet ticker={companyId} />
-            <CashFlowSheet ticker={companyId} />
+            <BalanceSheet />
+            <CashFlowSheet />
           </div>
         </div>
       </div>
