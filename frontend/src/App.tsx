@@ -1,11 +1,11 @@
-import CompanyScreen from "./screens/CompanyScreen";
+import DashboardScreen from "./screens/DashboardScreen";
 
-const App = () => {
+function App() {
   return (
     <>
-      <CompanyScreen companyId="IBM" />
+      <DashboardScreen />
     </>
   );
-};
+}
 
 export default App;

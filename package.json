@@ -5,10 +5,12 @@
   "dependencies": {
     "@apollo/client": "^3.8.8",
     "apollo-server-express": "^3.13.0",
+    "chart.js": "^4.4.1",
     "express": "^4.18.2",
     "firebase": "^10.7.1",
     "firebaseui": "^6.1.0",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "react-chartjs-2": "^5.2.0"
   },
   "devDependencies": {
     "tailwindcss": "^3.3.6"
