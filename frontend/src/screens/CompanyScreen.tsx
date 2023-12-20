@@ -38,10 +38,35 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ companyId }) => {
       <div className="max-w p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="col-span-1 space-y-4">
-            {/* Company Information */}
-            <h1 className="text-3xl font-bold text-gray-800">
-              Ticker: {companyId}
-            </h1>
+            {/* Company Information with Icon */}
+
+            <div className="relative flex items-center space-x-2">
+              <h1 className="text-3xl font-bold text-gray-800">
+                Ticker: {companyId}
+              </h1>
+              <div className="relative group">
+                <svg
+                  onClick={() => console.log("clicked")}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 cursor-pointer transition duration-300 ease-in-out transform group-hover:scale-110"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+                <span className="absolute bottom-full mb-2 hidden group-hover:flex justify-center items-center w-auto min-w-max px-2 py-1 text-xs text-white bg-blue-500 rounded-md shadow-lg transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100">
+                  Add to Wishlist
+                </span>
+              </div>
+            </div>
+            {/* End of Company Information with Icon */}
+
             <p className="font-semibold">Asset Type: Common Stock</p>
             <p className="text-gray-600">
               Name: International Business Machines
