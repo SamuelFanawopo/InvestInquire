@@ -52,6 +52,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ companyId }) => {
             </p>
             <p className="text-gray-600">Country: USA</p>
             {/* Expandable Text */}
+            <p className="text-gray-600">Currency: USD</p>
             <p className="text-gray-600">
               {isExpanded ? fullText : shortText}
               {!isExpanded && (
