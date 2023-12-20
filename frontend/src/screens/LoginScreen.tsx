@@ -1,78 +1,75 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-} from "firebase/auth";
-import { auth } from "/home/sam/Programming/Projects/InvestInquire/backend/config/db.js"; // Adjust the path to your Firebase config
+  faGoogle,
+  faTwitter,
+  faGithub,
+} from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
-// Define the props for the component, if needed
-interface LoginScreenProps {
-  // Define any props you might need
-}
-
-// Define the LoginScreen component
-const LoginScreen: React.FC<LoginScreenProps> = () => {
+const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleEmailLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Handle successful login
-    } catch (error) {
-      // Handle login errors
-      console.error(error);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      // Handle successful login
-    } catch (error) {
-      // Handle login errors
-      console.error(error);
-    }
-  };
-
-  const handleFacebookLogin = async () => {
-    const provider = new FacebookAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      // Handle successful login
-    } catch (error) {
-      // Handle login errors
-      console.error(error);
-    }
-  };
-
-  // Add methods for other providers as needed
-
   return (
-    <div>
-      <h1>Login</h1>
-      {/* Email/Password Login */}
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <button onClick={handleEmailLogin}>Login with Email</button>
+    <div className="bg-white min-h-screen">
+      <Header name="Guest" />
+      <div className="flex flex-col items-center justify-center py-12">
+        <h1 className="mb-8 text-4xl font-bold text-gray-800">Login</h1>
+        <div className="w-full max-w-xs">
+          {/* Email/Password Login */}
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
+          />
+          <button className="mb-3 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none flex items-center justify-center">
+            <FontAwesomeIcon icon={faEnvelope} className="mr-2" /> Login with
+            Email
+          </button>
+          <button className="mb-3 w-full px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none flex items-center justify-center">
+            {/* Google Icon */}
+            <FontAwesomeIcon icon={faGoogle} className="mr-2" /> Login with
+            Google
+          </button>
 
-      {/* Social Logins */}
-      <button onClick={handleGoogleLogin}>Login with Google</button>
-      <button onClick={handleFacebookLogin}>Login with Facebook</button>
-      {/* Add buttons for other providers as needed */}
+          <button className="mb-3 w-full px-4 py-2 text-white bg-[#1DA1F2] rounded-md hover:bg-[#0d95e8] focus:outline-none flex items-center justify-center">
+            {/* Twitter Icon */}
+            <FontAwesomeIcon icon={faTwitter} className="mr-2" /> Login with
+            Twitter
+          </button>
+          <button className="mb-3 w-full px-4 py-2 text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none flex items-center justify-center">
+            {/* GitHub Icon */}
+            <FontAwesomeIcon icon={faGithub} className="mr-2" /> Login with
+            GitHub
+          </button>
+          <button className="mb-2 w-full px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none flex items-center justify-center">
+            {/* Phone Icon */}
+            <FontAwesomeIcon icon={faPhone} className="mr-2" /> Login with Phone
+          </button>
+
+          <p className="mb-2 text-center text-blue-500 hover:text-blue-600 cursor-pointer">
+            Forgot Password?
+          </p>
+          <p className="text-center text-gray-800">Don't have an account?</p>
+          <p className="text-center text-blue-500 hover:text-blue-600 cursor-pointer">
+            Sign Up Here
+          </p>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };

@@ -1,11 +1,9 @@
-import CompanyScreen from "./screens/CompanyScreen";
-import DashboardScreen from "./screens/DashboardScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 function App() {
   return (
     <>
-      {/* <DashboardScreen /> */}
-      {<CompanyScreen companyId="IBM" />}
+      <LoginScreen />
     </>
   );
 }
