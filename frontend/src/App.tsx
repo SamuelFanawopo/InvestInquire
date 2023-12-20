@@ -1,9 +1,9 @@
-import ProfileScreen from "./screens/ProfileScreen";
+import DashboardScreen from "./screens/DashboardScreen";
 
 function App() {
   return (
     <>
-      <ProfileScreen />
+      <DashboardScreen />
     </>
   );
 }
