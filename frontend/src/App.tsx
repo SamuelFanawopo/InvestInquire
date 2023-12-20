@@ -1,9 +1,9 @@
-import RegistrationScreen from "./screens/RegistrationScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 function App() {
   return (
     <>
-      <RegistrationScreen />
+      <ProfileScreen />
     </>
   );
 }
