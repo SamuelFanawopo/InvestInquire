@@ -1,48 +1,61 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "/home/sam/Programming/Projects/InvestInquire/backend/config/db.js"; // Adjust this to your Firebase config file
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
-// Define the props for the component, if needed
-interface RegistrationScreenProps {
-  // Define any props you might need
-}
-
-// Define the RegistrationScreen component
-const RegistrationScreen: React.FC<RegistrationScreenProps> = () => {
+const RegistrationScreen: React.FC = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleRegistration = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      // Handle successful registration
-      // userCredential.user will have the user details
-    } catch (error) {
-      // Handle registration errors
-      console.error(error);
-    }
-  };
+  // Add any additional states or methods as needed
 
   return (
-    <div>
-      <h1>Register</h1>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <button onClick={handleRegistration}>Register</button>
+    <div className="bg-white min-h-screen">
+      <Header name="Guest" />
+      <div className="flex flex-col items-center justify-center py-12">
+        <h1 className="mb-8 text-4xl font-bold text-gray-800">Register</h1>
+        <div className="w-full max-w-xs">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
+          />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
+            className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
+          />
+          <button className="mb-3 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none">
+            Register
+          </button>
+          <p className="text-center text-gray-800">
+            Already have an account?{" "}
+            <span className="text-blue-500 hover:text-blue-600 cursor-pointer">
+              Login Here
+            </span>
+          </p>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };
