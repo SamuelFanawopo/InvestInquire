@@ -1,6 +1,21 @@
-import React from "react";
+import { useQuery } from "@apollo/client";
+import gql from "graphql-tag";
 
-interface MarketTimesProps {
+const GET_MARKET_STATUS = gql`
+  query GetMarketStatus {
+    marketStatus {
+      marketType
+      region
+      primaryExchanges
+      localOpen
+      localClose
+      currentStatus
+      notes
+    }
+  }
+`;
+
+interface MarketStatus {
   marketType: string;
   region: string;
   primaryExchanges: string;
@@ -10,44 +25,40 @@ interface MarketTimesProps {
   notes?: string;
 }
 
-const MarketTimes: React.FC<MarketTimesProps> = ({
-  marketType,
-  region,
-  primaryExchanges,
-  localOpen,
-  localClose,
-  currentStatus,
-  notes,
-}) => {
-  // Assuming you have multiple market times to display,
-  // you might want to map through an array of market data.
-  // For this example, I'll just repeat the structure for demonstration.
+const MarketTimes: React.FC = () => {
+  const { loading, error, data } = useQuery(GET_MARKET_STATUS);
 
-  // Each market time report structured as a grid item
-  const marketTimeReport = (key: number) => (
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const marketStatuses: MarketStatus[] = data?.marketStatus;
+
+  const marketTimeReport = (status: MarketStatus, key: number) => (
     <div key={key} className="p-4 border rounded shadow-md ml-2">
       <p className="font-semibold">
-        Market Type: <span className="font-normal">{marketType}</span>
+        Market Type: <span className="font-normal">{status.marketType}</span>
       </p>
       <p className="font-semibold">
-        Region: <span className="font-normal">{region}</span>
+        Region: <span className="font-normal">{status.region}</span>
       </p>
       <p className="font-semibold">
         Primary Exchanges:{" "}
-        <span className="font-normal">{primaryExchanges}</span>
+        <span className="font-normal">{status.primaryExchanges}</span>
       </p>
       <p className="font-semibold">
-        Local Open Time: <span className="font-normal">{localOpen}</span>
+        Local Open Time: <span className="font-normal">{status.localOpen}</span>
       </p>
       <p className="font-semibold">
-        Local Close Time: <span className="font-normal">{localClose}</span>
+        Local Close Time:{" "}
+        <span className="font-normal">{status.localClose}</span>
       </p>
       <p className="font-semibold">
-        Current Status: <span className="font-normal">{currentStatus}</span>
+        Current Status:{" "}
+        <span className="font-normal">{status.currentStatus}</span>
       </p>
-      {notes && (
+      {status.notes && (
         <p className="font-semibold">
-          Notes: <span className="font-normal">{notes}</span>
+          Notes: <span className="font-normal">{status.notes}</span>
         </p>
       )}
     </div>
@@ -59,14 +70,9 @@ const MarketTimes: React.FC<MarketTimesProps> = ({
         Global Market Open & Close Status
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {marketTimeReport(1)}
-        {marketTimeReport(2)}
-        {marketTimeReport(3)}
-        {marketTimeReport(4)}
-        {marketTimeReport(5)}
-        {marketTimeReport(6)}
-        {marketTimeReport(7)}
-        {marketTimeReport(8)}
+        {marketStatuses?.map((status, index) =>
+          marketTimeReport(status, index),
+        )}
       </div>
     </div>
   );
