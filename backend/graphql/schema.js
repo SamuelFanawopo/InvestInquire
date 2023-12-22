@@ -18,8 +18,17 @@ export const typeDefs = gql`
     notes: String
   }
 
+  type MarketInfo {
+    ticker: String
+    price: String
+    changeAmount: String
+    changePercent: String
+    volume: String
+  }
+
   type Query {
     marketNews(limit: Int): [NewsItem]
     marketStatus: [MarketStatus]
+    marketInfo: [MarketInfo]
   }
 `;
