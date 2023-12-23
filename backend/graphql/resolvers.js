@@ -39,16 +39,26 @@ export const resolvers = {
         notes: item.notes || "",
       }));
     },
-    marketInfo: async () => {
+    topGainers: async () => {
       const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
       const response = await axios.get(
         `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${apiKey}`,
       );
-      // Map over the 'Global Quote' object in the response
-      return Object.keys(response.data["Global Quote"]).map((key) => ({
-        ticker: key,
-        price: response.data["Global Quote"][key],
-      }));
+      return response.data.top_gainers.slice(0, 12);
+    },
+    topLosers: async () => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      const response = await axios.get(
+        `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${apiKey}`,
+      );
+      return response.data.top_losers.slice(0, 12);
+    },
+    mostActivelyTraded: async () => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      const response = await axios.get(
+        `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${apiKey}`,
+      );
+      return response.data.most_actively_traded.slice(0, 12);
     },
   },
 };

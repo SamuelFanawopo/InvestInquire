@@ -1,76 +1,120 @@
-import React from "react";
+import { useQuery, gql } from "@apollo/client";
 
-interface MarketInfoProps {
+interface Stock {
   ticker: string;
-  price: string;
-  change: string;
-  changePercent: string;
-  volume: string;
+  price: number;
+  change_amount: number;
+  change_percentage: number;
+  volume: number;
 }
 
-const MarketInfo: React.FC<MarketInfoProps> = ({
-  ticker,
-  price,
-  change,
-  changePercent,
-  volume,
-}) => {
-  const stockInfo = () => (
-    <div className="mb-4">
-      <p>
-        <span className="font-semibold">Ticker:</span> {ticker}
-      </p>
-      <p>
-        <span className="font-semibold">Price:</span> {price}
-      </p>
-      <p>
-        <span className="font-semibold">Change:</span> {change}
-      </p>
-      <p>
-        <span className="font-semibold">Change Percent:</span> {changePercent}
-      </p>
-      <p>
-        <span className="font-semibold">Volume:</span> {volume}
-      </p>
-    </div>
+// GraphQL Queries
+const GET_TOP_GAINERS = gql`
+  query GetTopGainers {
+    topGainers {
+      ticker
+      price
+      change_amount
+      change_percentage
+      volume
+    }
+  }
+`;
+
+const GET_TOP_LOSERS = gql`
+  query GetTopLosers {
+    topLosers {
+      ticker
+      price
+      change_amount
+      change_percentage
+      volume
+    }
+  }
+`;
+
+const GET_MOST_ACTIVE = gql`
+  query GetMostActive {
+    mostActivelyTraded {
+      ticker
+      price
+      change_amount
+      change_percentage
+      volume
+    }
+  }
+`;
+
+// Single MarketInfo Component
+const MarketInfo = () => {
+  const {
+    data: gainersData,
+    loading: loadingGainers,
+    error: errorGainers,
+  } = useQuery(GET_TOP_GAINERS);
+  const {
+    data: losersData,
+    loading: loadingLosers,
+    error: errorLosers,
+  } = useQuery(GET_TOP_LOSERS);
+  const {
+    data: activeData,
+    loading: loadingActive,
+    error: errorActive,
+  } = useQuery(GET_MOST_ACTIVE);
+
+  // Function to render stock information
+
+  // Function to render stock information
+  const renderStocks = (stocks: Stock[], title: string) => (
+    <section className="mt-6">
+      <h2 className="text-xl font-semibold text-center mb-4">{title}</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {stocks.map((stock) => (
+          <div
+            key={stock.ticker}
+            className="mb-4 p-4 border border-gray-200 rounded shadow-md"
+          >
+            <p>
+              <span className="font-semibold">Ticker:</span> {stock.ticker}
+            </p>
+            <p>
+              <span className="font-semibold">Price:</span> {stock.price}
+            </p>
+            <p>
+              <span className="font-semibold">Change Amount:</span>{" "}
+              {stock.change_amount}
+            </p>
+            <p>
+              <span className="font-semibold">Change Percent:</span>{" "}
+              {stock.change_percentage}
+            </p>
+            <p>
+              <span className="font-semibold">Volume:</span> {stock.volume}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 
-  // Helper function to generate multiple stock info components
-  const generateStockInfos = (count: number) =>
-    Array.from({ length: count }, () => stockInfo());
+  if (loadingGainers || loadingLosers || loadingActive)
+    return <p>Loading...</p>;
+  if (errorGainers || errorLosers || errorActive)
+    return <p>Error loading data</p>;
 
   return (
-    <div className="p-4 border border-gray-200 rounded shadow-md mr-2">
+    <div className="p-4">
       <h1 className="text-2xl text-center font-bold mb-4">
-        Top gainers, losers, and most actively traded US tickers
+        Stock Market Overview
       </h1>
 
-      <section>
-        <h2 className="text-xl font-semibold text-center mb-4">
-          Top Gainers Today
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {generateStockInfos(8)}
-        </div>
-      </section>
-
-      <section className="mt-6">
-        <h2 className="text-xl font-semibold text-center mb-4">
-          Top Losers Today
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {generateStockInfos(8)}
-        </div>
-      </section>
-
-      <section className="mt-6">
-        <h2 className="text-xl font-semibold text-center mb-4">
-          Most actively traded US tickers
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {generateStockInfos(12)}
-        </div>
-      </section>
+      {renderStocks(gainersData.topGainers, "Top Gainers Today")}
+      {renderStocks(losersData.topLosers, "Top Losers Today")}
+      {renderStocks(
+        activeData.mostActivelyTraded,
+        "Most Actively Traded Today",
+      )}
     </div>
   );
 };

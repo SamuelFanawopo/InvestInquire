@@ -3,14 +3,31 @@ import { useState } from "react";
 const ExchangeRate = () => {
   const [fromCurrency, setFromCurrency] = useState("");
   const [toCurrency, setToCurrency] = useState("");
-  const [conversionResult, setConversionResult] = useState<string | null>(null);
+  const [conversionResult, setConversionResult] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleConvert = () => {
-    // Logic to convert currency
-    // For demonstration, I'm just setting a dummy value
-    // In a real application, you would likely call an API here
-    const result = `1 ${fromCurrency} = 1.23 ${toCurrency}`;
-    setConversionResult(result);
+  const handleConvert = async () => {
+    try {
+      setLoading(true);
+      const apiKey = import.meta.env.VITE_REACT_APP_ALPHA_VANTAGE_API_KEY;
+      const url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${fromCurrency}&to_currency=${toCurrency}&apikey=${apiKey}`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data["Realtime Currency Exchange Rate"]) {
+        const rate =
+          data["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
+        setConversionResult(`1 ${fromCurrency} = ${rate} ${toCurrency}`);
+      } else {
+        setConversionResult("Unable to find exchange rate.");
+      }
+    } catch (error) {
+      console.error("Error fetching exchange rate:", error);
+      setConversionResult("Error fetching exchange rate.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -22,22 +39,23 @@ const ExchangeRate = () => {
         <input
           type="text"
           value={fromCurrency}
-          onChange={(e) => setFromCurrency(e.target.value)}
+          onChange={(e) => setFromCurrency(e.target.value.toUpperCase())}
           placeholder="From Currency (e.g., USD)"
           className="border-gray-300 border-2 rounded-lg py-2 px-4 mb-3 w-3/4"
         />
         <input
           type="text"
           value={toCurrency}
-          onChange={(e) => setToCurrency(e.target.value)}
-          placeholder="To Currency (e.g., BTC)"
+          onChange={(e) => setToCurrency(e.target.value.toUpperCase())}
+          placeholder="To Currency (e.g., JPY)"
           className="border-gray-300 border-2 rounded-lg py-2 px-4 mb-4 w-3/4"
         />
         <button
           onClick={handleConvert}
+          disabled={loading}
           className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 transition duration-300"
         >
-          Convert
+          {loading ? "Converting..." : "Convert"}
         </button>
       </div>
       {conversionResult && (
