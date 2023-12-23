@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {
   faGoogle,
   faTwitter,
@@ -7,13 +8,46 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../../backend/config/db.js";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
+  const handleEmailLogin = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+
+      // Use the imported 'db' instance
+      const userDocRef = doc(db, "logins", user.uid);
+      await setDoc(userDocRef, {
+        email: user.email,
+        lastLogin: new Date(),
+      });
+
+      console.log("User logged in:", user.email);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+        console.error("Error during login:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="bg-white min-h-screen">
       <Header name="Guest" />
@@ -35,7 +69,10 @@ const LoginScreen: React.FC = () => {
             placeholder="Password"
             className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
           />
-          <button className="mb-3 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none flex items-center justify-center">
+          <button
+            onClick={handleEmailLogin}
+            className="mb-3 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none flex items-center justify-center"
+          >
             <FontAwesomeIcon icon={faEnvelope} className="mr-2" /> Login with
             Email
           </button>

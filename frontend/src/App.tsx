@@ -1,9 +1,9 @@
-import LatestNewsScreen from "./screens/LatestNewsScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 function App() {
   return (
     <>
-      <LatestNewsScreen />
+      <LoginScreen />
     </>
   );
 }
