@@ -9,15 +9,35 @@ import {
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../../backend/config/db.js";
+import { initializeApp } from "firebase/app";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const LoginScreen: React.FC = () => {
+  console.log("Test variable:", import.meta.env.VITE_TEST_VARIABLE);
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  console.log("API Key:", import.meta.env.VITE_API_KEY);
+
+  const firebaseConfig = {
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID,
+    measurementId: import.meta.env.VITE_MEASUREMENT_ID,
+  };
+  console.log("Firebase config:", firebaseConfig);
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
 
   const handleEmailLogin = async () => {
     try {
