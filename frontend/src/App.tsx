@@ -1,9 +1,9 @@
-import DashboardScreen from "./screens/DashboardScreen";
+import LatestNewsScreen from "./screens/LatestNewsScreen";
 
 function App() {
   return (
     <>
-      <DashboardScreen />
+      <LatestNewsScreen />
     </>
   );
 }
