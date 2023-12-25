@@ -108,9 +108,6 @@ const LoginScreen: React.FC = () => {
             {loading ? "Logging in..." : "Login with Google"}
           </button>
 
-          <p className="mb-2 text-center text-blue-500 hover:text-blue-600 cursor-pointer">
-            Forgot Password?
-          </p>
           <p className="text-center text-gray-800">Don't have an account?</p>
           <p className="text-center text-blue-500 hover:text-blue-600 cursor-pointer">
             Sign Up Here

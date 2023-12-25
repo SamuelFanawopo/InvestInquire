@@ -37,8 +37,21 @@ const RegistrationScreen: React.FC = () => {
       console.log("User registered:", user.email);
     } catch (error) {
       if (error instanceof Error) {
-        setError(error.message);
+        setError(mapFirebaseErrorToMessage(error.message));
       }
+    }
+  };
+
+  // Helper function to map Firebase error messages
+  const mapFirebaseErrorToMessage = (error: string): string => {
+    if (error.includes("email-already-in-use")) {
+      return "This email is already in use. Please try a different email.";
+    } else if (error.includes("weak-password")) {
+      return "The password is too weak. Please use a stronger password.";
+    } else if (error.includes("invalid-email")) {
+      return "Invalid email. Please enter a valid email address.";
+    } else {
+      return "Registration failed. Please try again.";
     }
   };
 
@@ -77,7 +90,7 @@ const RegistrationScreen: React.FC = () => {
             className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
           />
 
-          {error && <p className="text-red-500 mb-3">{error}</p>}
+          {error && <p className="text-red-500 text-center mb-3">{error}</p>}
 
           <button
             onClick={handleRegistration}
