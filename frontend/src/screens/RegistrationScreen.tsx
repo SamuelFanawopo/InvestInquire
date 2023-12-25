@@ -76,7 +76,13 @@ const RegistrationScreen: React.FC = () => {
             placeholder="Confirm Password"
             className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
           />
-          <button className="mb-3 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none">
+
+          {error && <p className="text-red-500 mb-3">{error}</p>}
+
+          <button
+            onClick={handleRegistration}
+            className="mb-3 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none"
+          >
             Register
           </button>
           <p className="text-center text-gray-800">

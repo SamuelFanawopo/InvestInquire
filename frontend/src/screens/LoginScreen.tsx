@@ -1,16 +1,11 @@
 import React, { useState } from "react";
+import { handleGoogleLogin } from "../utils/Google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import {
-  faGoogle,
-  faTwitter,
-  faGithub,
-} from "@fortawesome/free-brands-svg-icons";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { auth, db } from "../utils/Firebase";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+import { doc, setDoc } from "firebase/firestore";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -19,6 +14,28 @@ const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const clearError = () => {
+    setTimeout(() => {
+      setError(null);
+    }); // Clears the error
+  };
+
+  const onGoogleLoginClick = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const { user, isNewUser } = await handleGoogleLogin();
+      // Handle the authenticated user, e.g., redirect or display a welcome message
+      console.log("Logged in user:", user.email, "New user:", isNewUser);
+    } catch (error) {
+      // Handle login error, e.g., show an error message
+      console.error("Login failed:", error);
+      setLoading(false);
+      setError("Login failed. Please try again.");
+      clearError();
+    }
+  };
 
   const handleEmailLogin = async () => {
     try {
@@ -42,8 +59,8 @@ const LoginScreen: React.FC = () => {
       console.log("User logged in:", user.email);
     } catch (error) {
       if (error instanceof Error) {
-        setError(error.message);
-        console.error("Error during login:", error);
+        setError("Login failed. Please check your credentials.");
+        console.error("Error during login:", error); // For development debugging
       }
     } finally {
       setLoading(false);
@@ -70,32 +87,25 @@ const LoginScreen: React.FC = () => {
             placeholder="Password"
             className="mb-4 w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
           />
+          {error && (
+            <div className="text-red-500 text-center mb-3">{error}</div>
+          )}
           <button
             onClick={handleEmailLogin}
+            disabled={loading}
             className="mb-3 w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none flex items-center justify-center"
           >
-            <FontAwesomeIcon icon={faEnvelope} className="mr-2" /> Login with
-            Email
+            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+            {loading ? "Logging in..." : "Login with Email"}
           </button>
-          <button className="mb-3 w-full px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none flex items-center justify-center">
+          <button
+            onClick={onGoogleLoginClick}
+            disabled={loading}
+            className="mb-3 w-full px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none flex items-center justify-center"
+          >
             {/* Google Icon */}
-            <FontAwesomeIcon icon={faGoogle} className="mr-2" /> Login with
-            Google
-          </button>
-
-          <button className="mb-3 w-full px-4 py-2 text-white bg-[#1DA1F2] rounded-md hover:bg-[#0d95e8] focus:outline-none flex items-center justify-center">
-            {/* Twitter Icon */}
-            <FontAwesomeIcon icon={faTwitter} className="mr-2" /> Login with
-            Twitter
-          </button>
-          <button className="mb-3 w-full px-4 py-2 text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none flex items-center justify-center">
-            {/* GitHub Icon */}
-            <FontAwesomeIcon icon={faGithub} className="mr-2" /> Login with
-            GitHub
-          </button>
-          <button className="mb-2 w-full px-4 py-2 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none flex items-center justify-center">
-            {/* Phone Icon */}
-            <FontAwesomeIcon icon={faPhone} className="mr-2" /> Login with Phone
+            <FontAwesomeIcon icon={faGoogle} className="mr-2" />
+            {loading ? "Logging in..." : "Login with Google"}
           </button>
 
           <p className="mb-2 text-center text-blue-500 hover:text-blue-600 cursor-pointer">
