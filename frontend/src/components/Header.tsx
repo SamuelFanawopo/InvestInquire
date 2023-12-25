@@ -8,7 +8,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ name }) => {
   return (
     <header className="flex items-center my-4 mx-10">
-      <h1 className="text-4xl font-bold">InvestInquire</h1>
+      <a href="/">
+        <h1 className="text-4xl font-bold">InvestInquire</h1>
+      </a>
       <div className="flex-grow"></div>{" "}
       {/* This div pushes the following elements to the right */}
       <div className="flex items-center mr-14">

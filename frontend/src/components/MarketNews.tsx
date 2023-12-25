@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
@@ -22,6 +23,11 @@ interface NewsItem {
 
 // Define the MarketNews component
 const MarketNews: React.FC = () => {
+  const navigate = useNavigate();
+
+  const goToNews = () => {
+    navigate("/news");
+  };
   const { loading, error, data } = useQuery(GET_MARKET_NEWS);
 
   if (loading) return <p>Loading...</p>;
@@ -68,7 +74,10 @@ const MarketNews: React.FC = () => {
         </div>
       )}
       <div className="w-full flex justify-end">
-        <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 transition duration-300 mt-6">
+        <button
+          onClick={goToNews}
+          className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 transition duration-300 mt-6"
+        >
           More News
         </button>
       </div>
