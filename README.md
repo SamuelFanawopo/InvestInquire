@@ -69,10 +69,6 @@ InvestInquire is a comprehensive financial data aggregator, designed to provide 
 
 InvestInquire utilizes the Alpha Vantage API. The free tier is limited to 25 requests per day. For more extensive usage, consider upgrading the API tier.
 
-## License
-
-This project is open-sourced under the MIT License.
-
 ## Contributing
 
 Contributions are welcome! Feel free to clone, fork, and redistribute.
