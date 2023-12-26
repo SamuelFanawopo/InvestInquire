@@ -100,9 +100,11 @@ const RegistrationScreen: React.FC = () => {
           </button>
           <p className="text-center text-gray-800">
             Already have an account?{" "}
-            <span className="text-blue-500 hover:text-blue-600 cursor-pointer">
-              Login Here
-            </span>
+            <a href="/login">
+              <span className="text-blue-500 hover:text-blue-600 cursor-pointer">
+                Login Here
+              </span>
+            </a>
           </p>
         </div>
       </div>

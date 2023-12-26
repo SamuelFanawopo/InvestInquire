@@ -16,7 +16,9 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
       <div className="flex items-center mr-14">
         <TickerSearch />
       </div>
-      <h2 className="text-xl font-bold">Welcome, {name}</h2>
+      <a href="/login">
+        <h2 className="text-xl font-bold">Welcome, {name}</h2>
+      </a>
     </header>
   );
 };

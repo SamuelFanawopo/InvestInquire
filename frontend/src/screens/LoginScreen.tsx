@@ -109,9 +109,11 @@ const LoginScreen: React.FC = () => {
           </button>
 
           <p className="text-center text-gray-800">Don't have an account?</p>
-          <p className="text-center text-blue-500 hover:text-blue-600 cursor-pointer">
-            Sign Up Here
-          </p>
+          <a href="/register">
+            <p className="text-center text-blue-500 hover:text-blue-600 cursor-pointer">
+              Sign Up Here
+            </p>
+          </a>
         </div>
       </div>
       <Footer />
