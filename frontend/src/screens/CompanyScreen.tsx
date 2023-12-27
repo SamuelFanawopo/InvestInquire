@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MarketNews from "../components/MarketNews";
+import ProfileNews from "../components/ProfileNews";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FinancialGraph from "../components/FinancialGraph";
@@ -90,15 +90,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ companyId }) => {
               )}
             </p>
 
-            <MarketNews
-              image1="https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/Market-Man-Shutterstock_1.jpeg"
-              image2="https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/Market-Man-Shutterstock_1.jpeg"
-              image3="https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/Market-Man-Shutterstock_1.jpeg"
-              image4="https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/Market-Man-Shutterstock_1.jpeg"
-              title="Fed Keeps Rates Steady, …The Week In The Markets"
-              timePublished="1 hour ago"
-              source="https://markets.businessinsider.com/news/etf/fed-keeps-rates-steady-signals-cuts-for-2024-powell-ignites-stock-rally-the-week-in-the-markets-1032906079"
-            />
+            <ProfileNews />
           </div>
           <div className="col-span-1">
             <FinancialGraph ticker={companyId} />

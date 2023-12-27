@@ -60,5 +60,21 @@ export const resolvers = {
       );
       return response.data.most_actively_traded.slice(0, 12);
     },
+    profileNews: async (_, { limit }) => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      const response = await axios.get(
+        `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=IBM&apikey=${apiKey}`,
+      );
+      let profileNewsItems = response.data.feed.map((item) => ({
+        title: item.title,
+        url: item.url,
+        timePublished: item.published,
+        bannerImage: item.banner_image,
+      }));
+      if (limit) {
+        profileNewsItems = profileNewsItems.slice(0, limit);
+      }
+      return profileNewsItems;
+    },
   },
 };

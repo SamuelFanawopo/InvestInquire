@@ -4,7 +4,12 @@ export const typeDefs = gql`
   type NewsItem {
     title: String
     url: String
-    timePublished: String
+    bannerImage: String
+  }
+
+  type ProfileNewsItem {
+    title: String
+    url: String
     bannerImage: String
   }
 
@@ -28,6 +33,7 @@ export const typeDefs = gql`
 
   type Query {
     marketNews(limit: Int): [NewsItem]
+    profileNews(limit: Int): [ProfileNewsItem]
     marketStatus: [MarketStatus]
     topGainers: [MarketInfo]
     topLosers: [MarketInfo]
