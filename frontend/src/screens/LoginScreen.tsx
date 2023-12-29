@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { handleGoogleLogin } from "../utils/Google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import useAuth from "../utils/useAuth"; // Adjust the path as necessary
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { auth, db } from "../utils/Firebase";
@@ -16,7 +15,6 @@ const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const user = useAuth();
 
   const navigate = useNavigate();
 
