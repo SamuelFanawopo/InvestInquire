@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ProfileNews from "../components/ProfileNews";
-import Header from "../components/Header";
+import UserHeader from "../utils/UserHeader";
 import Footer from "../components/Footer";
 import FinancialGraph from "../components/FinancialGraph";
 import BalanceSheet from "../slices/BalanceSheet";
@@ -34,7 +34,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ companyId }) => {
 
   return (
     <div>
-      <Header name="Guest" />
+      <UserHeader />
       <div className="max-w p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="col-span-1 space-y-4">

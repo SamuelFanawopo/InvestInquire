@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header";
+import UserHeader from "../utils/UserHeader";
 import Footer from "../components/Footer";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
@@ -32,7 +32,7 @@ const LatestNewsScreen: React.FC = () => {
   return (
     <div>
       {" "}
-      <Header name="Guest" />{" "}
+      <UserHeader />
       <div className="p-4">
         <h1 className="text-3xl font-bold text-center my-6">Latest News</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

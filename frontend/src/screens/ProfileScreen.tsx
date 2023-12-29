@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import Header from "../components/Header";
+import UserHeader from "../utils/UserHeader";
 import Footer from "../components/Footer";
 
 ChartJS.register(
@@ -105,7 +105,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = () => {
 
   return (
     <div>
-      <Header name="John Doe" />
+      <UserHeader />
       <div className="p-4">
         <div className="mb-4 flex">
           <input

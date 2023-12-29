@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { handleGoogleLogin } from "../utils/Google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import useAuth from "../utils/useAuth"; // Adjust the path as necessary
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { auth, db } from "../utils/Firebase";
 import { doc, setDoc } from "firebase/firestore";
-import Header from "../components/Header";
+import UserHeader from "../utils/UserHeader";
 import Footer from "../components/Footer";
 
 const LoginScreen: React.FC = () => {
@@ -14,6 +16,9 @@ const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const user = useAuth();
+
+  const navigate = useNavigate();
 
   const clearError = () => {
     setTimeout(() => {
@@ -25,9 +30,9 @@ const LoginScreen: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const { user, isNewUser } = await handleGoogleLogin();
+      await handleGoogleLogin();
       // Handle the authenticated user, e.g., redirect or display a welcome message
-      console.log("Logged in user:", user.email, "New user:", isNewUser);
+      navigate("/profile");
     } catch (error) {
       // Handle login error, e.g., show an error message
       console.error("Login failed:", error);
@@ -56,7 +61,7 @@ const LoginScreen: React.FC = () => {
         lastLogin: new Date(),
       });
 
-      console.log("User logged in:", user.email);
+      navigate("/profile");
     } catch (error) {
       if (error instanceof Error) {
         setError("Login failed. Please check your credentials.");
@@ -68,7 +73,7 @@ const LoginScreen: React.FC = () => {
   };
   return (
     <div className="bg-white min-h-screen">
-      <Header name="Guest" />
+      <UserHeader />
       <div className="flex flex-col items-center justify-center py-12">
         <h1 className="mb-8 text-4xl font-bold text-gray-800">Login</h1>
         <div className="w-full max-w-xs">

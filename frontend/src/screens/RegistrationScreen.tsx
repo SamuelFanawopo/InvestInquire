@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+import UserHeader from "../utils/UserHeader";
 import Footer from "../components/Footer";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../utils/Firebase";
 
@@ -11,6 +12,7 @@ const RegistrationScreen: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>("");
+  const navigate = useNavigate();
 
   const handleRegistration = async () => {
     if (password !== confirmPassword) {
@@ -34,7 +36,7 @@ const RegistrationScreen: React.FC = () => {
       });
 
       // Redirect to profile page
-      console.log("User registered:", user.email);
+      navigate("/profile");
     } catch (error) {
       if (error instanceof Error) {
         setError(mapFirebaseErrorToMessage(error.message));
@@ -57,7 +59,7 @@ const RegistrationScreen: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
-      <Header name="Guest" />
+      <UserHeader />
       <div className="flex flex-col items-center justify-center py-12">
         <h1 className="mb-8 text-4xl font-bold text-gray-800">Register</h1>
         <div className="w-full max-w-xs">
