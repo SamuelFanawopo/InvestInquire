@@ -13,7 +13,6 @@ const UserHeader: React.FC = () => {
         const db = getFirestore();
         const userDocRef = doc(db, "users", authUser.uid);
         const userDocSnap = await getDoc(userDocRef);
-        console.log("User doc snapshot name:", userDocSnap.data().name || null);
 
         if (userDocSnap.exists() && userDocSnap.data().name) {
           setUserName(userDocSnap.data().name);
