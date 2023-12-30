@@ -3,68 +3,78 @@ import { useNavigate } from "react-router-dom";
 
 const TickerSearch = () => {
   const [ticker, setTicker] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]); // Specify the type of suggestions
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (ticker) {
-        setIsLoading(true);
-        fetchSuggestions(ticker).then((data) => {
-          setSuggestions(data);
-          setIsLoading(false);
-        });
-      } else {
-        setSuggestions([]);
-      }
-    }, 500); // 500 ms delay for debouncing
+  // Fixed data for demonstration purposes
+  const suggestions = ticker ? ["AAPL", "MSFT", "GOOGL"] : [];
 
-    return () => clearTimeout(delayDebounce);
+  useEffect(() => {
+    if (!ticker) {
+      setIsTyping(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setIsTyping(true);
+
+    // Simulate an API call with a delay
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
   }, [ticker]);
 
   const handleSearch = (symbol: string) => {
-    navigate(`/company/${symbol}`);
+    if (symbol) {
+      navigate(`/company/${symbol}`);
+    }
   };
 
-  const fetchSuggestions = async (query: string) => {
-    // Implement the logic to fetch suggestions
-    return ["AAPL", "MSFT", "GOOGL"]; // Dummy response for now
+  const handleButtonClick = () => {
+    if (isTyping) {
+      setTicker("");
+      setIsTyping(false);
+    } else {
+      if (ticker) {
+        handleSearch(ticker);
+      }
+    }
   };
 
   return (
-    <div className="relative w-full max-w-md">
-      {" "}
-      {/* Parent div with relative positioning */}
-      <div className="flex w-full">
+    <div className="w-full max-w-md mx-auto">
+      <div className="flex">
         <input
-          className="border-transparent rounded-t-lg py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" // Updated classes
+          className="border-gray-300 border-2 rounded-lg py-2 px-4 w-full"
           type="text"
           value={ticker}
           onChange={(e) => setTicker(e.target.value)}
           placeholder="Enter ticker symbol"
         />
         <button
-          onClick={() => handleSearch(ticker)}
-          className="bg-blue-500 hover:bg-blue-700 text-white rounded-r-lg py-2 px-6 transition duration-300" // Updated classes
+          onClick={handleButtonClick}
+          className="bg-blue-500 hover:bg-blue-700 text-white rounded-lg py-2 px-6 ml-2 transition duration-300"
         >
-          Search
+          {isTyping ? "Cancel" : "Search"}
         </button>
       </div>
       {isLoading && (
-        <div className="absolute text-sm text-gray-600 w-full mt-2">
-          Loading...
-        </div>
+        <div className="text-sm text-gray-600 w-full mt-2">Loading...</div>
       )}
-      {!isLoading && suggestions.length > 0 && (
-        <ul className="absolute bg-white border border-transparent rounded-b-lg mt-1 w-full z-10 shadow-md">
-          {" "}
-          {/* Updated classes */}
+      {!isLoading && isTyping && (
+        <ul className="bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden">
           {suggestions.map((symbol, index) => (
             <li
               key={index}
-              className="cursor-pointer hover:bg-gray-100 p-2 text-gray-800" // Updated classes
-              onClick={() => handleSearch(symbol)}
+              className="cursor-pointer hover:bg-gray-200 p-2"
+              onClick={() => {
+                setTicker(symbol);
+                setIsTyping(false);
+                handleSearch(symbol);
+              }}
             >
               {symbol}
             </li>
