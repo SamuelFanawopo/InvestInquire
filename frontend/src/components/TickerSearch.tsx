@@ -26,7 +26,7 @@ const TickerSearch: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto relative">
       <div className="flex">
         <input
           className="border-gray-300 border-2 rounded-lg py-2 px-4 w-full"
@@ -43,7 +43,9 @@ const TickerSearch: React.FC = () => {
         </button>
       </div>
       {ticker && (
-        <ul className="bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden">
+        <ul className="absolute bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden mt-1">
+          {" "}
+          {/* Add absolute positioning and margin-top here */}
           {suggestions.map((symbol, index) => (
             <li
               key={index}
