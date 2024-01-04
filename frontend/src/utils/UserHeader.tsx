@@ -5,6 +5,7 @@ import useAuth from "../utils/useAuth";
 
 const UserHeader: React.FC = () => {
   const authUser = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>("Guest");
   useEffect(() => {
     const fetchTimeout = setTimeout(() => {
@@ -22,6 +23,7 @@ const UserHeader: React.FC = () => {
           if (userDocSnap.exists() && userDocSnap.data().name) {
             clearTimeout(fetchTimeout); // Clear timeout if data is fetched
             setUserName(userDocSnap.data().name);
+            setIsAuthenticated(true);
           }
         } catch (error) {
           console.error(error);
@@ -38,7 +40,7 @@ const UserHeader: React.FC = () => {
     return () => clearTimeout(fetchTimeout); // Clear timeout on unmount
   }, [authUser]);
 
-  return <Header name={userName} />;
+  return <Header name={userName} isAuthenticated={isAuthenticated} />;
 };
 
 export default UserHeader;

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import TickerInput from "../utils/TickerInput";
 import TickerList from "../utils/TickerList";
 import UserHeader from "../utils/UserHeader";
+import Logout from "../utils/Logout";
 import Footer from "../components/Footer";
 import { TickerData } from "../utils/TickerData";
 
@@ -55,6 +56,7 @@ const ProfileScreen: React.FC = () => {
         />
         <TickerList tickers={tickers} removeTicker={removeTicker} />
       </div>
+      <Logout />
       <Footer />
     </div>
   );
