@@ -110,14 +110,13 @@ const LoginScreen: React.FC = () => {
             <FontAwesomeIcon icon={faGoogle} className="mr-2" />
             {loading ? "Logging in..." : "Login with Google"}
           </button>
-
           <p className="text-center text-gray-800">Don't have an account?</p>
           <a href="/register">
             <p className="text-center text-blue-500 hover:text-blue-600 cursor-pointer">
               Sign Up Here
-            </p>
-          </a>
-        </div>
+            </p>{" "}
+          </a>{" "}
+        </div>{" "}
       </div>
       <Footer />
     </div>

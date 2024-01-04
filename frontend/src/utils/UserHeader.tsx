@@ -5,28 +5,38 @@ import useAuth from "../utils/useAuth";
 
 const UserHeader: React.FC = () => {
   const authUser = useAuth();
-  const [userName, setUserName] = useState<string | null>(null);
-
+  const [userName, setUserName] = useState<string>("Guest");
   useEffect(() => {
+    const fetchTimeout = setTimeout(() => {
+      // Set userName to default if data is not fetched in time
+      setUserName("Welcome, Guest");
+    }, 5000); // Timeout of 5 seconds
+
     const fetchUserName = async () => {
       if (authUser) {
         const db = getFirestore();
         const userDocRef = doc(db, "users", authUser.uid);
-        const userDocSnap = await getDoc(userDocRef);
+        try {
+          const userDocSnap = await getDoc(userDocRef);
 
-        if (userDocSnap.exists() && userDocSnap.data().name) {
-          setUserName(userDocSnap.data().name);
-        } else {
-          setUserName("Guest");
+          if (userDocSnap.exists() && userDocSnap.data().name) {
+            clearTimeout(fetchTimeout); // Clear timeout if data is fetched
+            setUserName(userDocSnap.data().name);
+          }
+        } catch (error) {
+          console.error(error);
+          clearTimeout(fetchTimeout);
+          setUserName("Guest"); // Set default on error
         }
+      } else {
+        clearTimeout(fetchTimeout);
+        setUserName("Guest"); // Set default if no authUser
       }
     };
 
-    fetchUserName().catch(console.error);
+    fetchUserName();
+    return () => clearTimeout(fetchTimeout); // Clear timeout on unmount
   }, [authUser]);
-
-  // Don't render the Header until the user name has been fetched
-  if (userName === null) return <div>Loading...</div>; // Or some other loading indicator
 
   return <Header name={userName} />;
 };
