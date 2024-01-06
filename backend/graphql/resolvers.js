@@ -60,6 +60,34 @@ export const resolvers = {
       );
       return response.data.most_actively_traded.slice(0, 12);
     },
+
+    searchTickers: async (_, { input }) => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      try {
+        const response = await axios.get(
+          `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${input}&apikey=${apiKey}`,
+        );
+
+        // Extract and format the relevant data from the response
+        const matches = response.data.bestMatches.map((match) => ({
+          symbol: match["1. symbol"],
+          name: match["2. name"],
+          type: match["3. type"],
+          region: match["4. region"],
+          marketOpen: match["5. marketOpen"],
+          marketClose: match["6. marketClose"],
+          timezone: match["7. timezone"],
+          currency: match["8. currency"],
+          matchScore: parseFloat(match["9. matchScore"]),
+        }));
+
+        return matches;
+      } catch (error) {
+        console.error("Error fetching ticker search results:", error);
+        throw new Error("Failed to fetch ticker search results");
+      }
+    },
+
     profileNews: async (_, { limit }) => {
       const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
       const response = await axios.get(

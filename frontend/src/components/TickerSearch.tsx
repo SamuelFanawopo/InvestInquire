@@ -1,12 +1,44 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLazyQuery, gql } from "@apollo/client";
+
+// GraphQL query
+const SEARCH_TICKERS_QUERY = gql`
+  query SearchTickers($input: String!) {
+    searchTickers(input: $input) {
+      symbol
+    }
+  }
+`;
+
+// Type for the ticker data
+interface TickerData {
+  searchTickers: {
+    symbol: string;
+  }[];
+}
+
+// Type for the query variables
+interface TickerVars {
+  input: string;
+}
 
 const TickerSearch: React.FC = () => {
   const [ticker, setTicker] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  // Custom debounce function with TypeScript typings
+  // Apollo Client useLazyQuery hook
+  const [executeSearch, { loading }] = useLazyQuery<TickerData, TickerVars>(
+    SEARCH_TICKERS_QUERY,
+    {
+      onCompleted: (data) => {
+        setSuggestions(data.searchTickers.map((ticker) => ticker.symbol));
+      },
+    },
+  );
+
+  // Custom debounce function
   const debounce = <F extends (...args: any[]) => any>(
     func: F,
     delay: number,
@@ -20,8 +52,7 @@ const TickerSearch: React.FC = () => {
 
   const updateSuggestions = (input: string) => {
     if (input.length >= 2) {
-      // Replace this logic with your actual GraphQL query or API call
-      setSuggestions(["AAPL", "MSFT", "GOOGL"]);
+      executeSearch({ variables: { input } });
     } else {
       setSuggestions([]);
     }
@@ -32,19 +63,16 @@ const TickerSearch: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const newTicker = e.target.value;
-    console.log("Input Changed:", newTicker); // Debug log
     setTicker(newTicker);
     debouncedUpdateSuggestions(newTicker);
   };
 
   const handleSuggestionClick = (symbol: string): void => {
-    console.log("Suggestion Clicked:", symbol); // Debug log
     setTicker(symbol);
     navigate(`/company/${symbol}`);
   };
 
   const handleButtonClick = (): void => {
-    console.log("Button Clicked:", ticker); // Debug log
     if (ticker) {
       navigate(`/company/${ticker}`);
     }
@@ -67,18 +95,22 @@ const TickerSearch: React.FC = () => {
           Search
         </button>
       </div>
-      {suggestions.length > 0 && (
-        <ul className="absolute bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden mt-1">
-          {suggestions.map((symbol, index) => (
-            <li
-              key={index}
-              className="cursor-pointer hover:bg-gray-200 p-2"
-              onClick={() => handleSuggestionClick(symbol)}
-            >
-              {symbol}
-            </li>
-          ))}
-        </ul>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        suggestions.length > 0 && (
+          <ul className="absolute bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden mt-1">
+            {suggestions.map((symbol, index) => (
+              <li
+                key={index}
+                className="cursor-pointer hover:bg-gray-200 p-2"
+                onClick={() => handleSuggestionClick(symbol)}
+              >
+                {symbol}
+              </li>
+            ))}
+          </ul>
+        )
       )}
     </div>
   );

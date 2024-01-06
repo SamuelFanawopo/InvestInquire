@@ -31,6 +31,18 @@ export const typeDefs = gql`
     volume: String
   }
 
+  type TickerMatch {
+    symbol: String
+    name: String
+    type: String
+    region: String
+    marketOpen: String
+    marketClose: String
+    timezone: String
+    currency: String
+    matchScore: Float
+  }
+
   type Query {
     marketNews(limit: Int): [NewsItem]
     profileNews(limit: Int): [ProfileNewsItem]
@@ -38,5 +50,6 @@ export const typeDefs = gql`
     topGainers: [MarketInfo]
     topLosers: [MarketInfo]
     mostActivelyTraded: [MarketInfo]
+    searchTickers(input: String!): [TickerMatch]
   }
 `;
