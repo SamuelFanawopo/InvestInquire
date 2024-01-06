@@ -3,13 +3,38 @@ import { useNavigate } from "react-router-dom";
 
 const TickerSearch: React.FC = () => {
   const [ticker, setTicker] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  const suggestions: string[] = ticker ? ["AAPL", "MSFT", "GOOGL"] : [];
+  // Custom debounce function with TypeScript typings
+  const debounce = <F extends (...args: any[]) => any>(
+    func: F,
+    delay: number,
+  ) => {
+    let debounceTimer: NodeJS.Timeout;
+    return function (...args: Parameters<F>) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func(...args), delay);
+    } as F;
+  };
+
+  const updateSuggestions = (input: string) => {
+    if (input.length >= 2) {
+      // Replace this logic with your actual GraphQL query or API call
+      setSuggestions(["AAPL", "MSFT", "GOOGL"]);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  // Debounced version of updateSuggestions
+  const debouncedUpdateSuggestions = debounce(updateSuggestions, 500);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log("Input Changed:", e.target.value); // Debug log
-    setTicker(e.target.value);
+    const newTicker = e.target.value;
+    console.log("Input Changed:", newTicker); // Debug log
+    setTicker(newTicker);
+    debouncedUpdateSuggestions(newTicker);
   };
 
   const handleSuggestionClick = (symbol: string): void => {
@@ -42,10 +67,8 @@ const TickerSearch: React.FC = () => {
           Search
         </button>
       </div>
-      {ticker && (
+      {suggestions.length > 0 && (
         <ul className="absolute bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden mt-1">
-          {" "}
-          {/* Add absolute positioning and margin-top here */}
           {suggestions.map((symbol, index) => (
             <li
               key={index}
