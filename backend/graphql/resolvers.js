@@ -61,6 +61,21 @@ export const resolvers = {
       return response.data.most_actively_traded.slice(0, 12);
     },
 
+    getCompanyOverview: async (_, { symbol }) => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      try {
+        const response = await axios.get(
+          `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`,
+        );
+
+        // Return the response data directly, as it already matches the expected structure
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching company overview:", error);
+        throw new Error("Failed to fetch company overview");
+      }
+    },
+
     searchTickers: async (_, { input }) => {
       const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
       try {
