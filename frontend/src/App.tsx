@@ -16,10 +16,7 @@ function App() {
           <Route path="/register" element={<RegistrationScreen />} />
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/news" element={<LatestNewsScreen />} />
-          <Route
-            path="/company/:symbol"
-            element={<CompanyScreen companyId="IBM" />}
-          />
+          <Route path="/company/:symbol" element={<CompanyScreen />} />
         </Routes>
       </Router>
     </>
