@@ -103,15 +103,13 @@ export const resolvers = {
       }
     },
 
-    profileNews: async (_, { limit }) => {
+    profileNews: async (_, { tickers, limit }) => {
       const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
-      const response = await axios.get(
-        `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=IBM&apikey=${apiKey}`,
-      );
+      const url = `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${tickers}&apikey=${apiKey}`;
+      const response = await axios.get(url);
       let profileNewsItems = response.data.feed.map((item) => ({
         title: item.title,
         url: item.url,
-        timePublished: item.published,
         bannerImage: item.banner_image,
       }));
       if (limit) {

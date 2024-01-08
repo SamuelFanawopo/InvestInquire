@@ -107,8 +107,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = () => {
                 )}
               </p>
             </div>
-
-            <ProfileNews />
+            {symbol && <ProfileNews ticker={symbol} />}
           </div>
           <div className="col-span-1">
             {symbol && <FinancialGraph ticker={symbol} />}

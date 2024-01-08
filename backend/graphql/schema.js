@@ -94,7 +94,7 @@ export const typeDefs = gql`
 
   type Query {
     marketNews(limit: Int): [NewsItem]
-    profileNews(limit: Int): [ProfileNewsItem]
+    profileNews(tickers: String, limit: Int): [ProfileNewsItem]
     marketStatus: [MarketStatus]
     topGainers: [MarketInfo]
     topLosers: [MarketInfo]

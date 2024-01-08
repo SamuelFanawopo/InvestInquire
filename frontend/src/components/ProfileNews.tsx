@@ -3,8 +3,8 @@ import gql from "graphql-tag";
 
 // Define the GraphQL query
 const GET_PROFILE_NEWS = gql`
-  query GetProfileNews {
-    profileNews(limit: 4) {
+  query GetProfileNews($tickers: String) {
+    profileNews(tickers: $tickers, limit: 4) {
       title
       url
       bannerImage
@@ -19,14 +19,21 @@ interface NewsItem {
   url: string;
 }
 
-const ProfileNews: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_PROFILE_NEWS);
+const ProfileNews: React.FC<{ ticker: string }> = ({ ticker }) => {
+  const { loading, error, data } = useQuery(GET_PROFILE_NEWS, {
+    variables: { tickers: ticker },
+  });
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error loading news data.</p>;
 
   // Extract newsItems from data
-  const profileNewsItems: NewsItem[] = data.profileNews;
+  const profileNewsItems: NewsItem[] = data?.profileNews || [];
+
+  // Check if there is any news available
+  if (profileNewsItems.length === 0) {
+    return <p>No news available for this ticker.</p>;
+  }
 
   return (
     <div className="flex flex-col items-center w-full ml-2">
