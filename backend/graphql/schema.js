@@ -43,6 +43,47 @@ export const typeDefs = gql`
     matchScore: Float
   }
 
+  type BalanceSheetItem {
+    fiscalDateEnding: String
+    reportedCurrency: String
+    totalAssets: String
+    totalCurrentAssets: String
+    cashAndCashEquivalentsAtCarryingValue: String
+    cashAndShortTermInvestments: String
+    inventory: String
+    currentNetReceivables: String
+    totalNonCurrentAssets: String
+    propertyPlantEquipment: String
+    accumulatedDepreciationAmortizationPPE: String
+    intangibleAssets: String
+    intangibleAssetsExcludingGoodwill: String
+    goodwill: String
+    investments: String
+    longTermInvestments: String
+    shortTermInvestments: String
+    otherCurrentAssets: String
+    otherNonCurrentAssets: String
+    totalLiabilities: String
+    totalCurrentLiabilities: String
+    currentAccountsPayable: String
+    deferredRevenue: String
+    currentDebt: String
+    shortTermDebt: String
+    totalNonCurrentLiabilities: String
+    capitalLeaseObligations: String
+    longTermDebt: String
+    currentLongTermDebt: String
+    longTermDebtNoncurrent: String
+    shortLongTermDebtTotal: String
+    otherCurrentLiabilities: String
+    otherNonCurrentLiabilities: String
+    totalShareholderEquity: String
+    treasuryStock: String
+    retainedEarnings: String
+    commonStock: String
+    commonStockSharesOutstanding: String
+  }
+
   type CompanyOverview {
     Symbol: String
     AssetType: String
@@ -101,5 +142,6 @@ export const typeDefs = gql`
     mostActivelyTraded: [MarketInfo]
     searchTickers(input: String!): [TickerMatch]
     getCompanyOverview(symbol: String!): CompanyOverview
+    balanceSheet(symbol: String!): BalanceSheetItem
   }
 `;

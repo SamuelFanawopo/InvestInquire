@@ -103,6 +103,22 @@ export const resolvers = {
       }
     },
 
+    balanceSheet: async (_, { symbol }) => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY; // Ensure the API key is stored in .env
+      const url = `https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=${symbol}&apikey=${apiKey}`;
+
+      try {
+        const response = await axios.get(url);
+        const balanceSheets = response.data.annualReports;
+
+        // Return the first entry (most recent balance sheet)
+        return balanceSheets.length > 0 ? balanceSheets[0] : null;
+      } catch (error) {
+        console.error("Error fetching balance sheet data:", error);
+        throw new Error("Failed to fetch balance sheet data");
+      }
+    },
+
     profileNews: async (_, { tickers, limit }) => {
       const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
       const url = `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${tickers}&apikey=${apiKey}`;

@@ -1,52 +1,62 @@
 import { useState } from "react";
+import { useQuery, gql } from "@apollo/client";
 
-type BalanceSheetData = {
-  [key: string]: string | number;
-};
+// GraphQL query
+const GET_BALANCE_SHEET = gql`
+  query GetBalanceSheet($symbol: String!) {
+    balanceSheet(symbol: $symbol) {
+      fiscalDateEnding
+      reportedCurrency
+      totalAssets
+      totalCurrentAssets
+      cashAndCashEquivalentsAtCarryingValue
+      cashAndShortTermInvestments
+      inventory
+      currentNetReceivables
+      totalNonCurrentAssets
+      propertyPlantEquipment
+      accumulatedDepreciationAmortizationPPE
+      intangibleAssets
+      intangibleAssetsExcludingGoodwill
+      goodwill
+      investments
+      longTermInvestments
+      shortTermInvestments
+      otherCurrentAssets
+      otherNonCurrentAssets
+      totalLiabilities
+      totalCurrentLiabilities
+      currentAccountsPayable
+      deferredRevenue
+      currentDebt
+      shortTermDebt
+      totalNonCurrentLiabilities
+      capitalLeaseObligations
+      longTermDebt
+      currentLongTermDebt
+      longTermDebtNoncurrent
+      shortLongTermDebtTotal
+      otherCurrentLiabilities
+      otherNonCurrentLiabilities
+      totalShareholderEquity
+      treasuryStock
+      retainedEarnings
+      commonStock
+      commonStockSharesOutstanding
+    }
+  }
+`;
 
-const BalanceSheet: React.FC = () => {
+const BalanceSheet: React.FC<{ symbol: string }> = ({ symbol }) => {
   const [showTable, setShowTable] = useState<boolean>(false);
+  const { loading, error, data } = useQuery(GET_BALANCE_SHEET, {
+    variables: { symbol },
+  });
 
-  const balanceSheetData: BalanceSheetData = {
-    fiscalDateEnding: "2022-12-31",
-    reportedCurrency: "USD",
-    totalAssets: "127243000000",
-    totalCurrentAssets: "29118000000",
-    cashAndCashEquivalentsAtCarryingValue: "7886000000",
-    cashAndShortTermInvestments: "7886000000",
-    inventory: "1552000000",
-    currentNetReceivables: "14209000000",
-    totalNonCurrentAssets: "96874000000",
-    propertyPlantEquipment: "5334000000",
-    accumulatedDepreciationAmortizationPPE: "13361000000",
-    intangibleAssets: "67133000000",
-    intangibleAssetsExcludingGoodwill: "11184000000",
-    goodwill: "55949000000",
-    investments: "None",
-    longTermInvestments: "142000000",
-    shortTermInvestments: "852000000",
-    otherCurrentAssets: "2610000000",
-    otherNonCurrentAssets: "None",
-    totalLiabilities: "105222000000",
-    totalCurrentLiabilities: "31505000000",
-    currentAccountsPayable: "4051000000",
-    deferredRevenue: "15531000000",
-    currentDebt: "9511000000",
-    shortTermDebt: "4760000000",
-    totalNonCurrentLiabilities: "83414000000",
-    capitalLeaseObligations: "164000000",
-    longTermDebt: "47190000000",
-    currentLongTermDebt: "4676000000",
-    longTermDebtNoncurrent: "46189000000",
-    shortLongTermDebtTotal: "107759000000",
-    otherCurrentLiabilities: "9788000000",
-    otherNonCurrentLiabilities: "12243000000",
-    totalShareholderEquity: "21944000000",
-    treasuryStock: "169484000000",
-    retainedEarnings: "149825000000",
-    commonStock: "58343000000",
-    commonStockSharesOutstanding: "906091977",
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading balance sheet data.</p>;
+
+  const balanceSheetData = data?.balanceSheet;
 
   const renderTable = () => {
     return (
@@ -65,12 +75,13 @@ const BalanceSheet: React.FC = () => {
           <tbody>
             {Object.entries(balanceSheetData).map(([key, value], index) => (
               <tr
+                key={index}
                 className={`${
                   index % 2 === 0 ? "bg-white" : "bg-blue-50"
                 } border-b border-blue-200`}
               >
                 <td className="px-6 py-4">{key}</td>
-                <td className="px-6 py-4">{value}</td>
+                <td className="px-6 py-4">{value?.toString() ?? "N/A"}</td>
               </tr>
             ))}
           </tbody>
@@ -89,7 +100,7 @@ const BalanceSheet: React.FC = () => {
           {!showTable ? "View Balance Sheet" : "Close Balance Sheet"}
         </button>
       </div>
-      {showTable && renderTable()}
+      {showTable && balanceSheetData && renderTable()}
     </div>
   );
 };
