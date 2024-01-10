@@ -1,43 +1,53 @@
 import { useState } from "react";
+import { useQuery, gql } from "@apollo/client";
 
-type CashFlowSheetData = {
-  [key: string]: string | number;
-};
+// GraphQL query for fetching cash flow data
+const GET_CASH_FLOW = gql`
+  query GetCashFlow($symbol: String!) {
+    cashFlow(symbol: $symbol) {
+      fiscalDateEnding
+      reportedCurrency
+      operatingCashflow
+      paymentsForOperatingActivities
+      proceedsFromOperatingActivities
+      changeInOperatingLiabilities
+      changeInOperatingAssets
+      depreciationDepletionAndAmortization
+      capitalExpenditures
+      changeInReceivables
+      changeInInventory
+      profitLoss
+      cashflowFromInvestment
+      cashflowFromFinancing
+      proceedsFromRepaymentsOfShortTermDebt
+      paymentsForRepurchaseOfCommonStock
+      paymentsForRepurchaseOfEquity
+      paymentsForRepurchaseOfPreferredStock
+      dividendPayout
+      dividendPayoutCommonStock
+      dividendPayoutPreferredStock
+      proceedsFromIssuanceOfCommonStock
+      proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet
+      proceedsFromIssuanceOfPreferredStock
+      proceedsFromRepurchaseOfEquity
+      proceedsFromSaleOfTreasuryStock
+      changeInCashAndCashEquivalents
+      changeInExchangeRate
+      netIncome
+    }
+  }
+`;
 
-const CashFlowSheet: React.FC = () => {
+const CashFlowSheet: React.FC<{ symbol: string }> = ({ symbol }) => {
   const [showTable, setShowTable] = useState<boolean>(false);
+  const { loading, error, data } = useQuery(GET_CASH_FLOW, {
+    variables: { symbol },
+  });
 
-  const cashFlowSheetData: CashFlowSheetData = {
-    fiscalDateEnding: "2022-12-31",
-    reportedCurrency: "USD",
-    operatingCashflow: "10435000000",
-    paymentsForOperatingActivities: "2430000000",
-    proceedsFromOperatingActivities: "None",
-    changeInOperatingLiabilities: "213000000",
-    changeInOperatingAssets: "468000000",
-    depreciationDepletionAndAmortization: "4802000000",
-    capitalExpenditures: "1346000000",
-    changeInReceivables: "539000000",
-    changeInInventory: "-71000000",
-    profitLoss: "1639000000",
-    cashflowFromInvestment: "-4202000000",
-    cashflowFromFinancing: "-4958000000",
-    proceedsFromRepaymentsOfShortTermDebt: "217000000",
-    paymentsForRepurchaseOfCommonStock: "None",
-    paymentsForRepurchaseOfEquity: "None",
-    paymentsForRepurchaseOfPreferredStock: "None",
-    dividendPayout: "5948000000",
-    dividendPayoutCommonStock: "5948000000",
-    dividendPayoutPreferredStock: "None",
-    proceedsFromIssuanceOfCommonStock: "None",
-    proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet: "7804000000",
-    proceedsFromIssuanceOfPreferredStock: "None",
-    proceedsFromRepurchaseOfEquity: "-407000000",
-    proceedsFromSaleOfTreasuryStock: "None",
-    changeInCashAndCashEquivalents: "None",
-    changeInExchangeRate: "None",
-    netIncome: "1639000000",
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading cash flow data.</p>;
+
+  const cashFlowSheetData = data?.cashFlow;
 
   const renderTable = () => {
     return (
@@ -54,16 +64,18 @@ const CashFlowSheet: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(cashFlowSheetData).map(([key, value], index) => (
-              <tr
-                className={`${
-                  index % 2 === 0 ? "bg-white" : "bg-blue-50"
-                } border-b border-blue-200`}
-              >
-                <td className="px-6 py-4">{key}</td>
-                <td className="px-6 py-4">{value}</td>
-              </tr>
-            ))}
+            {cashFlowSheetData &&
+              Object.entries(cashFlowSheetData).map(([key, value], index) => (
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-white" : "bg-blue-50"
+                  } border-b border-blue-200`}
+                >
+                  <td className="px-6 py-4">{key}</td>
+                  <td className="px-6 py-4">{value?.toString() ?? "N/A"}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

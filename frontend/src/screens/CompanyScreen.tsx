@@ -112,7 +112,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = () => {
           <div className="col-span-1">
             {symbol && <FinancialGraph ticker={symbol} />}
             {symbol && <BalanceSheet symbol={symbol} />}
-            <CashFlowSheet />
+            {symbol && <CashFlowSheet symbol={symbol} />}
           </div>
         </div>
       </div>

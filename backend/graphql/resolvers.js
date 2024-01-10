@@ -103,6 +103,20 @@ export const resolvers = {
       }
     },
 
+    cashFlow: async (_, { symbol }) => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      const url = `https://www.alphavantage.co/query?function=CASH_FLOW&symbol=${symbol}&apikey=${apiKey}`;
+
+      try {
+        const response = await axios.get(url);
+        const cashFlows = response.data.annualReports;
+        return cashFlows.length > 0 ? cashFlows[0] : null;
+      } catch (error) {
+        console.error("Error fetching cash flow data:", error);
+        throw new Error("Failed to fetch cash flow data");
+      }
+    },
+
     balanceSheet: async (_, { symbol }) => {
       const apiKey = process.env.ALPHA_VANTAGE_API_KEY; // Ensure the API key is stored in .env
       const url = `https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=${symbol}&apikey=${apiKey}`;

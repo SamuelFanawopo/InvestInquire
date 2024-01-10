@@ -84,6 +84,38 @@ export const typeDefs = gql`
     commonStockSharesOutstanding: String
   }
 
+  type CashFlowItem {
+    fiscalDateEnding: String
+    reportedCurrency: String
+    operatingCashflow: String
+    paymentsForOperatingActivities: String
+    proceedsFromOperatingActivities: String
+    changeInOperatingLiabilities: String
+    changeInOperatingAssets: String
+    depreciationDepletionAndAmortization: String
+    capitalExpenditures: String
+    changeInReceivables: String
+    changeInInventory: String
+    profitLoss: String
+    cashflowFromInvestment: String
+    cashflowFromFinancing: String
+    proceedsFromRepaymentsOfShortTermDebt: String
+    paymentsForRepurchaseOfCommonStock: String
+    paymentsForRepurchaseOfEquity: String
+    paymentsForRepurchaseOfPreferredStock: String
+    dividendPayout: String
+    dividendPayoutCommonStock: String
+    dividendPayoutPreferredStock: String
+    proceedsFromIssuanceOfCommonStock: String
+    proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet: String
+    proceedsFromIssuanceOfPreferredStock: String
+    proceedsFromRepurchaseOfEquity: String
+    proceedsFromSaleOfTreasuryStock: String
+    changeInCashAndCashEquivalents: String
+    changeInExchangeRate: String
+    netIncome: String
+  }
+
   type CompanyOverview {
     Symbol: String
     AssetType: String
@@ -143,5 +175,6 @@ export const typeDefs = gql`
     searchTickers(input: String!): [TickerMatch]
     getCompanyOverview(symbol: String!): CompanyOverview
     balanceSheet(symbol: String!): BalanceSheetItem
+    cashFlow(symbol: String!): CashFlowItem
   }
 `;
