@@ -165,6 +165,15 @@ export const typeDefs = gql`
     ExDividendDate: String
   }
 
+  type StockData {
+    date: String
+    open: Float
+    high: Float
+    low: Float
+    close: Float
+    volume: Int
+  }
+
   type Query {
     marketNews(limit: Int): [NewsItem]
     profileNews(tickers: String, limit: Int): [ProfileNewsItem]
@@ -176,5 +185,6 @@ export const typeDefs = gql`
     getCompanyOverview(symbol: String!): CompanyOverview
     balanceSheet(symbol: String!): BalanceSheetItem
     cashFlow(symbol: String!): CashFlowItem
+    getStockData(ticker: String!, days: Int): [StockData]
   }
 `;

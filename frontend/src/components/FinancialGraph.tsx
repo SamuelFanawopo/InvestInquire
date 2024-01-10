@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import Error from "../utils/Error";
+import { useQuery, gql } from "@apollo/client";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,18 +23,18 @@ ChartJS.register(
   Legend,
 );
 
-interface FinancialGraphProps {
-  ticker: string;
-}
-
-interface StockData {
-  date: string;
-  open: string;
-  high: string;
-  low: string;
-  close: string;
-  volume: string;
-}
+const GET_STOCK_DATA = gql`
+  query GetStockData($ticker: String!, $days: Int) {
+    getStockData(ticker: $ticker, days: $days) {
+      date
+      open
+      high
+      low
+      close
+      volume
+    }
+  }
+`;
 
 const FinancialGraph: React.FC<FinancialGraphProps> = ({ ticker }) => {
   const [graphType, setGraphType] = useState("daily"); // 'daily', 'monthly', or 'ytd'
@@ -128,14 +129,6 @@ const FinancialGraph: React.FC<FinancialGraphProps> = ({ ticker }) => {
 
   const chartData = getChartData();
 
-  useEffect(() => {
-    if (Object.keys(chartData).length === 0 && graphType !== "daily") {
-      setHasError(true);
-    } else {
-      setHasError(false);
-    }
-  }, [chartData, graphType]); // Dependency array to avoid unnecessary updates
-
   const options = {
     scales: {
       y: {
@@ -172,37 +165,10 @@ const FinancialGraph: React.FC<FinancialGraphProps> = ({ ticker }) => {
   };
 
   return (
-    <div>
+    <div className="mb-2">
       <h1 className="font-bold text-2xl text-center mb-5">
         Stock Prices for {ticker}
       </h1>
-      <div className="flex justify-between mx-8 mb-8 mt-8">
-        <button
-          onClick={() => setGraphType("daily")}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
-        >
-          Daily
-        </button>
-        <button
-          onClick={() => setGraphType("weekly")}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
-        >
-          Weekly
-        </button>{" "}
-        <button
-          onClick={() => setGraphType("monthly")}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
-        >
-          Monthly
-        </button>{" "}
-        <button
-          onClick={() => setGraphType("ytd")}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
-        >
-          YTD
-        </button>
-      </div>
-
       {hasError ? (
         <Error message="Unable to load graph data." /> // Display error component
       ) : (
