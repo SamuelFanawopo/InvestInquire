@@ -35,6 +35,10 @@ const TickerInput: React.FC = () => {
     },
   );
 
+  const handleSuggestionClick = (symbol: string): void => {
+    setTicker(symbol);
+  };
+
   // Custom debounce function
   const debounce = <F extends (...args: any[]) => any>(
     func: F,
@@ -48,11 +52,7 @@ const TickerInput: React.FC = () => {
   };
 
   const updateSuggestions = (input: string) => {
-    if (input.length >= 2) {
-      executeSearch({ variables: { input } });
-    } else {
-      setSuggestions([]);
-    }
+    executeSearch({ variables: { input } });
   };
 
   // Debounced version of updateSuggestions
@@ -81,7 +81,7 @@ const TickerInput: React.FC = () => {
         <div>Loading...</div>
       ) : (
         suggestions.length > 0 && (
-          <ul className="absolute bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden mt-1">
+          <ul className="absolute bg-white border border-gray-300 rounded-lg z-10 shadow-md overflow-hidden mt-1">
             {suggestions.map((symbol, index) => (
               <li
                 key={index}

@@ -51,11 +51,7 @@ const TickerSearch: React.FC = () => {
   };
 
   const updateSuggestions = (input: string) => {
-    if (input.length >= 2) {
-      executeSearch({ variables: { input } });
-    } else {
-      setSuggestions([]);
-    }
+    executeSearch({ variables: { input } });
   };
 
   // Debounced version of updateSuggestions
