@@ -15,6 +15,8 @@ const GET_RECENT_STOCK_DATA = gql`
 `;
 
 const ProfileScreen: React.FC = () => {
+  const { loading, error, data } = useQuery(GET_RECENT_STOCK_DATA);
+
   return (
     <div>
       <UserHeader />
