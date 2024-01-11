@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
 
-interface TickerInputProps {
-  newTicker: string;
-  setNewTicker: React.Dispatch<React.SetStateAction<string>>;
-  addTicker: () => void;
-}
-
 const SEARCH_TICKERS_QUERY = gql`
   query SearchTickers($input: String!) {
     searchTickers(input: $input) {
@@ -27,11 +21,7 @@ interface TickerVars {
   input: string;
 }
 
-const TickerInput: React.FC<TickerInputProps> = ({
-  newTicker,
-  setNewTicker,
-  addTicker,
-}) => {
+const TickerInput: React.FC = () => {
   const [ticker, setTicker] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -74,24 +64,16 @@ const TickerInput: React.FC<TickerInputProps> = ({
     debouncedUpdateSuggestions(newTicker);
   };
 
-  const handleSuggestionClick = (symbol: string): void => {
-    setTicker(symbol);
-    addTicker();
-  };
-
   return (
     <div className="mb-4 flex">
       <input
         type="text"
-        value={newTicker}
-        onChange={(e) => setNewTicker(e.target.value.toUpperCase())}
+        value={ticker}
+        onChange={handleInputChange}
         placeholder="Add Ticker Symbol"
         className="border rounded-md p-2 mr-2"
       />
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white rounded-lg py-2 px-4 ml-2 transition duration-300"
-        onClick={addTicker}
-      >
+      <button className="bg-blue-500 hover:bg-blue-700 text-white rounded-lg py-2 px-4 ml-2 transition duration-300">
         Add to Watchlist
       </button>
 
