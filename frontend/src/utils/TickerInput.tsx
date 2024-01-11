@@ -1,8 +1,30 @@
-// TickerInput.tsx
+import React, { useState } from "react";
+import { useLazyQuery, gql } from "@apollo/client";
+
 interface TickerInputProps {
   newTicker: string;
   setNewTicker: React.Dispatch<React.SetStateAction<string>>;
   addTicker: () => void;
+}
+
+const SEARCH_TICKERS_QUERY = gql`
+  query SearchTickers($input: String!) {
+    searchTickers(input: $input) {
+      symbol
+    }
+  }
+`;
+
+// Type for the ticker data
+interface TickerData {
+  searchTickers: {
+    symbol: string;
+  }[];
+}
+
+// Type for the query variables
+interface TickerVars {
+  input: string;
 }
 
 const TickerInput: React.FC<TickerInputProps> = ({
@@ -10,6 +32,9 @@ const TickerInput: React.FC<TickerInputProps> = ({
   setNewTicker,
   addTicker,
 }) => {
+  const [ticker, setTicker] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
   // Apollo Client useLazyQuery hook
   const [executeSearch, { loading }] = useLazyQuery<TickerData, TickerVars>(
     SEARCH_TICKERS_QUERY,
@@ -51,12 +76,10 @@ const TickerInput: React.FC<TickerInputProps> = ({
 
   const handleSuggestionClick = (symbol: string): void => {
     setTicker(symbol);
-    navigate(`/company/${symbol}`);
   };
 
   const handleButtonClick = (): void => {
     if (ticker) {
-      navigate(`/company/${ticker}`);
     }
   };
   return (
