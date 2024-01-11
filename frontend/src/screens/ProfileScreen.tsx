@@ -1,7 +1,18 @@
+import { gql, useQuery } from "@apollo/client";
 import TickerInput from "../utils/TickerInput";
 import UserHeader from "../utils/UserHeader";
 import Logout from "../utils/Logout";
 import Footer from "../components/Footer";
+
+// Define the GraphQL query
+const GET_RECENT_STOCK_DATA = gql`
+  query GetRecentStockData($ticker: String!) {
+    getRecentStockData(ticker: $ticker) {
+      open
+      close
+    }
+  }
+`;
 
 const ProfileScreen: React.FC = () => {
   return (
