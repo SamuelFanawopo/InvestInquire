@@ -76,12 +76,9 @@ const TickerInput: React.FC<TickerInputProps> = ({
 
   const handleSuggestionClick = (symbol: string): void => {
     setTicker(symbol);
+    addTicker();
   };
 
-  const handleButtonClick = (): void => {
-    if (ticker) {
-    }
-  };
   return (
     <div className="mb-4 flex">
       <input
@@ -92,11 +89,29 @@ const TickerInput: React.FC<TickerInputProps> = ({
         className="border rounded-md p-2 mr-2"
       />
       <button
-        onClick={addTicker}
         className="bg-blue-500 hover:bg-blue-700 text-white rounded-lg py-2 px-4 ml-2 transition duration-300"
+        onClick={addTicker}
       >
         Add to Watchlist
       </button>
+
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        suggestions.length > 0 && (
+          <ul className="absolute bg-white border border-gray-300 rounded-lg w-full z-10 shadow-md overflow-hidden mt-1">
+            {suggestions.map((symbol, index) => (
+              <li
+                key={index}
+                className="cursor-pointer hover:bg-gray-200 p-2"
+                onClick={() => handleSuggestionClick(symbol)}
+              >
+                {symbol}
+              </li>
+            ))}
+          </ul>
+        )
+      )}
     </div>
   );
 };

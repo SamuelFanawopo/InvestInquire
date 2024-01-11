@@ -25,8 +25,7 @@ const ProfileScreen: React.FC = () => {
       alert("Please enter a ticker symbol");
       return;
     }
-    // For demonstration, using mock data for the new ticker
-    // In a real application, fetch data from an API or data source
+
     const newTickerData = {
       symbol: newTicker,
       gain: Math.floor(Math.random() * 10), // Random gain for demonstration
@@ -49,6 +48,7 @@ const ProfileScreen: React.FC = () => {
     <div>
       <UserHeader />
       <div className="p-4">
+        <h1 className="text-2xl font-bold pt-4 mb-5">My Watchlist:</h1>
         <TickerInput
           newTicker={newTicker}
           setNewTicker={setNewTicker}
