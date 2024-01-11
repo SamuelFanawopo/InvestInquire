@@ -185,6 +185,7 @@ export const typeDefs = gql`
     getCompanyOverview(symbol: String!): CompanyOverview
     balanceSheet(symbol: String!): BalanceSheetItem
     cashFlow(symbol: String!): CashFlowItem
+    getRecentStockData(ticker: String!): [StockData]
     getStockData(ticker: String!, days: Int): [StockData]
   }
 `;

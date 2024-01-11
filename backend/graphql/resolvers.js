@@ -117,6 +117,31 @@ export const resolvers = {
       }
     },
 
+    getRecentStockData: async (_, { ticker }) => {
+      const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${apiKey}`;
+
+      try {
+        const response = await axios.get(url);
+        const data = response.data["Time Series (Daily)"];
+
+        // Get the last three entries
+        return Object.entries(data)
+          .slice(0, 3)
+          .map(([date, stockInfo]) => ({
+            date,
+            open: parseFloat(stockInfo["1. open"]),
+            high: parseFloat(stockInfo["2. high"]),
+            low: parseFloat(stockInfo["3. low"]),
+            close: parseFloat(stockInfo["4. close"]),
+            volume: parseInt(stockInfo["5. volume"]),
+          }));
+      } catch (error) {
+        console.error("Error fetching stock data:", error);
+        throw new Error("Failed to fetch stock data");
+      }
+    },
+
     getStockData: async (_, { ticker, days }) => {
       const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
       const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&outputsize=compact&apikey=${apiKey}`;
