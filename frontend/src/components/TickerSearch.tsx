@@ -68,12 +68,6 @@ const TickerSearch: React.FC = () => {
     navigate(`/company/${symbol}`);
   };
 
-  const handleButtonClick = (): void => {
-    if (ticker) {
-      navigate(`/company/${ticker}`);
-    }
-  };
-
   return (
     <div className="w-full max-w-md mx-auto relative">
       <div className="flex">
@@ -84,10 +78,7 @@ const TickerSearch: React.FC = () => {
           onChange={handleInputChange}
           placeholder="Enter ticker symbol"
         />
-        <button
-          onClick={handleButtonClick}
-          className="bg-blue-500 hover:bg-blue-700 text-white rounded-lg py-2 px-6 ml-2 transition duration-300"
-        >
+        <button className="bg-blue-500 hover:bg-blue-700 text-white rounded-lg py-2 px-6 ml-2 transition duration-300">
           Search
         </button>
       </div>
