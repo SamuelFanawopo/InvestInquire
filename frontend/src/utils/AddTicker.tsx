@@ -1,13 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 interface AddTickerProps {
   symbol: string;
 }
 
 const AddTicker: React.FC<AddTickerProps> = ({ symbol }) => {
-  return (
-    <div>
-      <h1>Symbol: {symbol}</h1>
-    </div>
-  );
+  const navigate = useNavigate();
+
+  // function to add the ticker to the db and reload the page
+
+  navigate("/profile");
 };
 
 export default AddTicker;
