@@ -1,4 +1,3 @@
-import { TickerData } from "./TickerData";
 import TickerItem from "./TickerItem";
 
 // TickerList.tsx

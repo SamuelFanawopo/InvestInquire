@@ -33,6 +33,7 @@ const RegistrationScreen: React.FC = () => {
         name: name,
         email: email,
         createdAt: new Date(), // Timestamp for account creation
+        watchlist: [], // Initialize with an empty watchlist
       });
 
       // Redirect to profile page
