@@ -1,6 +1,6 @@
-// TickerItem.tsx
-import { TickerData } from "./TickerData";
+import React from "react";
 import { Line } from "react-chartjs-2";
+import { TickerData } from "./TickerData";
 
 interface TickerItemProps {
   ticker: TickerData;
