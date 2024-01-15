@@ -1,38 +1,24 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
-import useAuth from "../utils/useAuth"; // Assuming useAuth is the custom hook for authentication
+import { NavigateFunction } from "react-router-dom";
 
-interface AddTickerProps {
-  symbol: string;
-}
+export const addTickerToWatchlist = async (
+  symbol: string,
+  navigate: NavigateFunction,
+  authUser: { uid: string } | null, // Assuming authUser has at least a uid property
+): Promise<void> => {
+  const db = getFirestore();
 
-const AddTicker: React.FC<AddTickerProps> = ({ symbol }) => {
-  const navigate = useNavigate();
-  const authUser = useAuth();
-  const db = getFirestore(); // Initialize Firestore
+  if (authUser && authUser.uid && symbol) {
+    const userDocRef = doc(db, "users", authUser.uid);
 
-  useEffect(() => {
-    const updateUserWatchlist = async () => {
-      if (authUser && authUser.uid) {
-        const userDocRef = doc(db, "users", authUser.uid);
-
-        try {
-          await updateDoc(userDocRef, {
-            watchlist: arrayUnion(symbol), // Add symbol to watchlist array
-          });
-          navigate("/profile"); // Navigate to profile page after update
-        } catch (error) {
-          console.error("Error updating document: ", error);
-        }
-      }
-    };
-
-    updateUserWatchlist();
-  }, [authUser, symbol, navigate, db]);
-
-  return null; // This component does not render anything
+    try {
+      await updateDoc(userDocRef, {
+        watchlist: arrayUnion(symbol),
+      });
+      navigate("/profile");
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  }
 };
-
-export default AddTicker;
