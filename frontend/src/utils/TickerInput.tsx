@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
-import AddTicker from "./AddTicker";
 
 const SEARCH_TICKERS_QUERY = gql`
   query SearchTickers($input: String!) {
@@ -35,11 +34,6 @@ const TickerInput: React.FC = () => {
       },
     },
   );
-
-  const handleSuggestionClick = (symbol: string): void => {
-    <AddTicker symbol={symbol} />;
-  };
-
   // Custom debounce function
   const debounce = <F extends (...args: any[]) => any>(
     func: F,
@@ -87,7 +81,7 @@ const TickerInput: React.FC = () => {
               <li
                 key={index}
                 className="cursor-pointer hover:bg-gray-200 p-2"
-                onClick={() => handleSuggestionClick(symbol)}
+                onClick={() => console.log(symbol)}
               >
                 {symbol}
               </li>

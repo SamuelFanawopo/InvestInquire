@@ -7,7 +7,8 @@ import Footer from "../components/Footer";
 import FinancialGraph from "../components/FinancialGraph";
 import BalanceSheet from "../slices/BalanceSheet";
 import CashFlowSheet from "../slices/CashFlowSheet";
-import TickerAdd from "../utils/TickerAdd";
+import useAuth from "../utils/useAuth"; // Assuming useAuth returns an object with a uid property or null
+import { addTickerToWatchlist } from "../utils/AddTicker";
 
 const GET_COMPANY_OVERVIEW = gql`
   query GetCompanyOverview($symbol: String!) {
@@ -28,13 +29,10 @@ interface CompanyScreenProps {}
 
 const CompanyScreen: React.FC<CompanyScreenProps> = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const authUser = useAuth();
 
   // Extract symbol from the URL
   const { symbol } = useParams<{ symbol: string }>();
-
-  const handleAddTicker = () => {
-    TickerAdd(symbol);
-  };
 
   // Fetch company overview data
   const { data, loading, error } = useQuery(GET_COMPANY_OVERVIEW, {
@@ -46,6 +44,12 @@ const CompanyScreen: React.FC<CompanyScreenProps> = () => {
   // Define fullText and shortText based on the fetched description
   const fullText = companyData?.Description || "";
   const shortText = `${fullText.substring(0, 500)}...`;
+
+  const handleAddTicker = async () => {
+    if (symbol && authUser) {
+      await addTickerToWatchlist(symbol, authUser);
+    }
+  };
 
   // Handle loading and error states
   if (loading) return <p>Loading...</p>;
