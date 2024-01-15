@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import FinancialGraph from "../components/FinancialGraph";
 import BalanceSheet from "../slices/BalanceSheet";
 import CashFlowSheet from "../slices/CashFlowSheet";
+import TickerAdd from "../utils/TickerAdd";
 
 const GET_COMPANY_OVERVIEW = gql`
   query GetCompanyOverview($symbol: String!) {
@@ -30,6 +31,10 @@ const CompanyScreen: React.FC<CompanyScreenProps> = () => {
 
   // Extract symbol from the URL
   const { symbol } = useParams<{ symbol: string }>();
+
+  const handleAddTicker = () => {
+    TickerAdd(symbol);
+  };
 
   // Fetch company overview data
   const { data, loading, error } = useQuery(GET_COMPANY_OVERVIEW, {
@@ -58,7 +63,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = () => {
               </h1>
               <div className="relative group">
                 <svg
-                  onClick={() => console.log("Add to Wishlist clicked")}
+                  onClick={handleAddTicker}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
