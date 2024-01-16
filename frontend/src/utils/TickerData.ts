@@ -1,20 +1,14 @@
 // TickerData.ts
 export interface TickerData {
   symbol: string;
-  prices: {
-    openYesterday: number;
-    closeYesterday: number;
-    currentPrice: number;
-  };
-  gain: number;
-  loss: number;
+  recentData?: StockDayData[]; // Now optional
+  gain?: number; // Now optional
+  loss?: number; // Now optional
 }
 
-export interface StockData {
-  date: string;
+export interface StockDayData {
   open: number;
   close: number;
-  high?: number; // Optional, include if needed
-  low?: number; // Optional, include if needed
-  volume?: number; // Optional, include if needed
+  high?: number; // Optional
+  low?: number; // Optional
 }
