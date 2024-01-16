@@ -7,7 +7,8 @@ InvestInquire is a comprehensive financial data aggregator, designed to provide 
 ![Latest News Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/347eefc6-8a29-4584-945b-06c1ef352093)
 ![Login Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/fca1b0e8-cb47-4644-87db-2a2f147f643a)
 ![Registration Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/1e091134-ba06-49c4-81d4-d4192a51c5bc)
-![Profile Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/e6580308-2d87-49b7-8d5a-d0587ce17bc6)
+![Profile Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/f83b1df1-7d6c-4b16-9a05-b9ae1ea49f84)
+
 
 
 ## Features
