@@ -38,7 +38,7 @@ const TickerInput: React.FC = () => {
     },
   );
   // Custom debounce function
-  const debounce = <F extends (...args: any[]) => any>(
+  const debounce = <F extends (...args: ay[]) => any>(
     func: F,
     delay: number,
   ) => {
