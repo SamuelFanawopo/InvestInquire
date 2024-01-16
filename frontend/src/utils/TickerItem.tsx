@@ -87,13 +87,13 @@ const TickerItem: React.FC<TickerItemProps> = ({ ticker, removeTicker }) => {
         <p>Today's Change: {todayChange.toFixed(2)}%</p>
         <button
           onClick={() => removeTicker(ticker.symbol)}
-          className="text-red-500 text-sm mt-2"
+          className="text-red-500 text-sm mt-2 pt-1"
         >
           Remove
         </button>
       </div>
       {hasSufficientData && (
-        <div style={{ width: "200px", height: "100px" }}>
+        <div style={{ width: "125px", height: "100px" }}>
           <Line data={chartData} options={chartOptions} />
         </div>
       )}

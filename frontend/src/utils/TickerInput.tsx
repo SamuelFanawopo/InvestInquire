@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { addTickerToWatchlist } from "./AddTicker";
 import useAuth from "../utils/useAuth"; // Assuming useAuth returns an object with a uid property or null
 
@@ -28,7 +27,6 @@ const TickerInput: React.FC = () => {
   const [ticker, setTicker] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const authUser = useAuth();
-  const navigate = useNavigate(); // Initialize useNavigate
 
   // Apollo Client useLazyQuery hook
   const [executeSearch, { loading }] = useLazyQuery<TickerData, TickerVars>(
@@ -67,8 +65,7 @@ const TickerInput: React.FC = () => {
   const handleSuggestionClick = async (symbol: string) => {
     if (authUser) {
       await addTickerToWatchlist(symbol, authUser);
-      navigate("/profile"); // Navigate to profile or reload
-      // window.location.reload(); // Uncomment this if you prefer to reload the page
+      window.location.reload();
     } else {
       alert("Please log in to add tickers to your watchlist.");
     }
