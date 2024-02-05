@@ -3,6 +3,8 @@
 InvestInquire is a comprehensive financial data aggregator, designed to provide an insightful and interactive experience for tracking and analyzing financial data. Developed using React, TypeScript, GraphQL, Firebase, and TailwindCSS, ChartJS. this project leverages the power of modern web technologies to deliver a seamless and dynamic user experience.
 
 ![Dashboard Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/252b242c-1e94-416c-9d61-7bdf11f2874e)
+![Screenshot from 2024-02-05 09-37-20](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/0823e339-ba84-4d95-91c8-903a6a6ade1c)
+![Screenshot from 2024-02-05 09-37-36](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/01b08fbf-c99e-4d9d-b9e9-10ad3e00a6ab)
 ![Company Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/9427a143-d4d5-41dc-af1e-79230c27dab2)
 ![Latest News Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/347eefc6-8a29-4584-945b-06c1ef352093)
 ![Login Screen](https://github.com/SamuelFanawopo/InvestInquire/assets/92785438/fca1b0e8-cb47-4644-87db-2a2f147f643a)
