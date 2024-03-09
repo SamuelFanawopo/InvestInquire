@@ -1,6 +1,6 @@
 # InvestInquire
 
-Large Update Coming Soon
+Large Updates Coming Soon
 
 InvestInquire is a comprehensive financial data aggregator, designed to provide an insightful and interactive experience for tracking and analyzing financial data. Developed using React, TypeScript, GraphQL, Firebase, and TailwindCSS, ChartJS. this project leverages the power of modern web technologies to deliver a seamless and dynamic user experience.
 
