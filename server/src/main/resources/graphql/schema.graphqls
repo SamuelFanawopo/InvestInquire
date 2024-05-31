@@ -1,0 +1,934 @@
+# GraphQL schema
+
+type Query {
+    # Market Performance
+    topGainers: [DailyChanges]
+    topLosers: [DailyChanges]
+    mostActivelyTraded: [DailyChanges]
+    sectorPerformance: [SectorPerformance]
+    historicalSectorPerformance(page: Int): [HistoricalSectorPerformance]
+
+    # Stock and Company Information
+    quoteOrder(ticker: String): [QuoteOrder]
+    stockPriceChange(ticker: String): [StockPriceChange]
+    companyProfile(ticker: String): [CompanyProfile]
+    companyRating(ticker: String): [CompanyRating]
+    historicalRating(ticker: String, page: Int): [CompanyRating]
+    dataQuote(ticker: String): [DataQuote]
+    globalQuote(ticker: String): [GlobalQuote]
+    investmentOverview: InvestmentOverview # Trading212 account data
+    investedStocks(ticker: String): InvestedStocks
+    openPositions: [OpenPositions]
+
+    # Financial Statements & Growth
+    balanceSheet(ticker: String, page: Int): [BalanceSheet]
+    balanceSheetGrowth(ticker: String, page: Int): [BalanceSheetGrowth]
+    cashFlowStatement(ticker: String, page: Int): [CashFlowStatement]
+    cashFlowGrowth(ticker: String, page: Int): [CashFlowGrowth]
+    discountedCashFlow(ticker: String): [DiscountedCashFlow]
+    incomeStatement(ticker: String, page: Int): [IncomeStatement]
+    incomeStatementGrowth(ticker: String, page: Int): [IncomeGrowth]
+    financialGrowth(ticker: String, page: Int): [FinancialGrowth]
+
+    # Financial Metrics and Ratios
+    keyMetrics(ticker: String, page: Int): [KeyMetrics]
+    keyMetricsTTM(ticker: String): [KeyMetricsTTM]
+    ratiosTTM(ticker: String): [RatiosTTM]
+
+    # Market Data Types
+    commodities(page: Int): [DataType]
+    commoditiesQuote(ticker: String): [DataTypeQuote]
+    forex(limit: Int): [DataType]
+    forexQuote(ticker: String): [DataTypeQuote]
+
+    # Technical Analysis
+    intradayChart(ticker: String, limit: Int): [IntradayChart]
+    dema(ticker: String, limit: Int): [DEMA]
+    tema(ticker: String, limit: Int): [TEMA]
+    wma(ticker: String, limit: Int): [WMA]
+    ema(ticker: String, limit: Int): [EMA]
+    sma(ticker: String, limit: Int): [SMA]
+
+    # News, Events, and Articles
+    generalNews(page: Int): [News]
+    newsByTicker(ticker: String, page: Int): [News]
+    globalEvents(from: String, to: String, page: Int): [GlobalEvents]
+    earningsCalendar(from: String, to: String, page: Int): [EarningsCalendar]
+    earningsSurprises(ticker: String, limit: Int): [EarningsSurprises]
+    realGDP(page: Int): [EconomicIndicators]
+    realGDPPerCapita(page: Int): [EconomicIndicators]
+    interestRate(page: Int): [EconomicIndicators]
+    inflation(page: Int): [EconomicIndicators]
+
+    # Dividends
+    dividendsCalendar(from: String, to: String, page: Int): [DividendsCalendar]
+    dividendsHistorical(ticker: String, page: Int): [DividendsHistorical]
+
+    # Utility
+    tickerSearch(ticker: String, limit: Int): [SymbolList]
+}
+
+# --- Dashboard ---
+
+# This data type will be applied for the:
+    # Market Biggest Gainers
+    # Market Biggest Losers
+    # Market Most Active
+
+type DailyChanges {
+    symbol: String
+    name: String
+    change: Float
+    price: Float
+    changesPercentage: Float
+}
+
+# Watchlist Summary
+    # Name will be in the database
+    # StockList is usable, but QuoteOrder includes more information, that will be necessary
+
+type QuoteOrder {
+    symbol: String
+    name: String
+    price: Float
+    change: Float # This represents the difference between the previous close and current price
+    dayLow: Float # further chart information on hover
+    dayHigh: Float
+    priceAvgFifty: Float
+    priceAvgTwoHundred: Float
+}
+
+    # Stock price change will also be included
+    # Including Portfolio Perfformance
+    # This will be represented as a bar chart, -ive = red, +ive = green
+    # Over the selected duration
+
+type StockPriceChange {
+    oneDay: Float
+    fiveDays: Float
+    oneMonth: Float
+    threeMonths: Float
+    sixMonths: Float
+    yearToDay: Float
+    oneYear: Float
+    threeYears: Float
+    fiveYears: Float
+    tenYears: Float
+    max: Float
+}
+
+# News & Alerts
+# Includes:
+    # Personalised News Feed & Alerts Center
+    # For the news API, using marketaux. Allows on free tier 3 articles per req + 100 req daily
+
+type News {
+    title: String
+    description: String
+    url: String
+    imageUrl: String
+    publishedAt: String
+}
+
+# For the search bar
+
+type SymbolList {
+    symbol: String
+    name: String
+}
+
+# Performance analysis requires upgrading tiers
+
+# Recent Activity & History
+    # Will feature Trading212 Integration
+
+# All invested stocks
+
+type OpenPositions {
+    ticker: String
+    quantity: Float
+    averagePrice: Float
+    currentPrice: Float
+    ppl: Float # Profit & Loss
+    initialFillDate: String
+    maxBuy: Float
+    maxSell: Float
+}
+
+# Account Overview
+
+type InvestmentOverview {
+    total: Float
+    free: Float
+    invested: Float
+    ppl: Float
+    result: Float
+    pieCash: Float
+    blocked: Float
+}
+
+type InvestedStocks {
+    averagePrice: Float
+    currentPrice: Float
+    fxPpl: Float
+    initialFillDate: String
+    maxBuy: Float
+    maxSell: Float
+    pieQuantity: Float
+    ppl: Float
+    quantity: Float
+}
+
+type EconomicIndicators {
+    date: String
+    value: String
+}
+
+# --- Company Profile ---
+
+type CompanyProfile {
+    symbol: String
+    price: Float
+    beta: Float
+    volAvg: Int
+    mktCap: String
+    lastDiv: Float
+    changes: Float
+    companyName: String
+    currency: String
+    cik: String
+    isin: String
+    cusip: String
+    exchange: String
+    industry: String
+    description: String
+    ceo: String
+    sector: String
+    country: String
+    fullTimeEmployees: String
+    city: String
+    state: String
+    dcfDiff: Float
+    dcf: Float
+    image: String
+    ipoDate: String
+}
+
+# Financial Highlights:
+    # Financial Statements
+    # Key Metrics
+
+# Income Statement
+type IncomeStatement {
+    date: String
+    symbol: String
+    reportedCurrency: String
+    cik: String
+    fillingDate: String
+    acceptedDate: String
+    calendarYear: String
+    period: String
+    revenue: Float
+    costOfRevenue: Float
+    grossProfit: Float
+    grossProfitRatio: Float
+    researchAndDevelopmentExpenses: Float
+    generalAndAdministrativeExpenses: Float
+    sellingAndMarketingExpenses: Float
+    sellingGeneralAndAdministrativeExpenses: Float
+    otherExpenses: Float
+    operatingExpenses: Float
+    costAndExpenses: Float
+    interestIncome: Float
+    interestExpense: Float
+    depreciationAndAmortization: Float
+    ebitda: Float
+    ebitdaratio: Float
+    operatingIncome: Float
+    operatingIncomeRatio: Float
+    totalOtherIncomeExpensesNet: Float
+    incomeBeforeTax: Float
+    incomeBeforeTaxRatio: Float
+    incomeTaxExpense: Float
+    netIncome: Float
+    netIncomeRatio: Float
+    eps: Float
+    epsdiluted: Float
+    weightedAverageShsOut: Float
+    weightedAverageShsOutDil: Float
+    link: String
+    finalLink: String
+}
+
+# Balance Sheet
+
+type BalanceSheet {
+    date: String
+    symbol: String
+    reportedCurrency: String
+    cik: String
+    fillingDate: String
+    acceptedDate: String
+    calendarYear: String
+    period: String
+    cashAndCashEquivalents: Float
+    shortTermInvestments: Float
+    cashAndShortTermInvestments: Float
+    netReceivables: Float
+    inventory: Float
+    otherCurrentAssets: Float
+    totalCurrentAssets: Float
+    propertyPlantEquipmentNet: Float
+    goodwill: Float
+    intangibleAssets: Float
+    goodwillAndIntangibleAssets: Float
+    longTermInvestments: Float
+    taxAssets: Float
+    otherNonCurrentAssets: Float
+    totalNonCurrentAssets: Float
+    otherAssets: Float
+    totalAssets: Float
+    accountPayables: Float
+    shortTermDebt: Float
+    taxPayables: Float
+    deferredRevenue: Float
+    otherCurrentLiabilities: Float
+    totalCurrentLiabilities: Float
+    longTermDebt: Float
+    deferredRevenueNonCurrent: Float
+    deferredTaxLiabilitiesNonCurrent: Float
+    otherNonCurrentLiabilities: Float
+    totalNonCurrentLiabilities: Float
+    otherLiabilities: Float
+    capitalLeaseObligations: Float
+    totalLiabilities: Float
+    preferredStock: Float
+    commonStock: Float
+    retainedEarnings: Float
+    accumulatedOtherComprehensiveIncomeLoss: Float
+    othertotalStockholdersEquity: Float
+    totalStockholdersEquity: Float
+    totalEquity: Float
+    totalLiabilitiesAndStockholdersEquity: Float
+    minorityInterest: Float
+    totalLiabilitiesAndTotalEquity: Float
+    totalInvestments: Float
+    totalDebt: Float
+    netDebt: Float
+    link: String
+    finalLink: String
+}
+
+# Cash Flow statement
+
+type CashFlowStatement {
+    date: String
+    symbol: String
+    reportedCurrency: String
+    cik: String
+    fillingDate: String
+    acceptedDate: String
+    calendarYear: String
+    period: String
+    netIncome: Float
+    depreciationAndAmortization: Float
+    deferredIncomeTax: Float
+    stockBasedCompensation: Float
+    changeInWorkingCapital: Float
+    accountsReceivables: Float
+    inventory: Float
+    accountsPayables: Float
+    otherWorkingCapital: Float
+    otherNonCashItems: Float
+    netCashProvidedByOperatingActivities: Float
+    investmentsInPropertyPlantAndEquipment: Float
+    acquisitionsNet: Float
+    purchasesOfInvestments: Float
+    salesMaturitiesOfInvestments: Float
+    otherInvestingActivites: Float
+    netCashUsedForInvestingActivites: Float
+    debtRepayment: Float
+    commonStockIssued: Float
+    commonStockRepurchased: Float
+    dividendsPaid: Float
+    otherFinancingActivites: Float
+    netCashUsedProvidedByFinancingActivities: Float
+    effectOfForexChangesOnCash: Float
+    netChangeInCash: Float
+    cashAtEndOfPeriod: Float
+    cashAtBeginningOfPeriod: Float
+    operatingCashFlow: Float
+    capitalExpenditure: Float
+    freeCashFlow: Float
+    link: String
+    finalLink: String
+}
+
+# Key Financial Metrics
+type KeyMetrics {
+    symbol: String
+    date: String
+    calendarYear: String
+    period: String
+    revenuePerShare: Float
+    netIncomePerShare: Float
+    operatingCashFlowPerShare: Float
+    freeCashFlowPerShare: Float
+    cashPerShare: Float
+    bookValuePerShare: Float
+    tangibleBookValuePerShare: Float
+    shareholdersEquityPerShare: Float
+    interestDebtPerShare: Float
+    marketCap: Float
+    enterpriseValue: Float
+    peRatio: Float
+    priceToSalesRatio: Float
+    pocfratio: Float
+    pfcfRatio: Float
+    pbRatio: Float
+    ptbRatio: Float
+    evToSales: Float
+    enterpriseValueOverEBITDA: Float
+    evToOperatingCashFlow: Float
+    evToFreeCashFlow: Float
+    earningsYield: Float
+    freeCashFlowYield: Float
+    debtToEquity: Float
+    debtToAssets: Float
+    netDebtToEBITDA: Float
+    currentRatio: Float
+    interestCoverage: Float
+    incomeQuality: Float
+    dividendYield: Float
+    payoutRatio: Float
+    salesGeneralAndAdministrativeToRevenue: Float
+    researchAndDevelopmentToRevenue: Float
+    intangiblesToTotalAssets: Float
+    capexToOperatingCashFlow: Float
+    capexToRevenue: Float
+    capexToDepreciation: Float
+    stockBasedCompensationToRevenue: Float
+    grahamNumber: Float
+    roic: Float
+    returnOnTangibleAssets: Float
+    grahamNetNet: Float
+    workingCapital: Float
+    tangibleAssetValue: Float
+    netCurrentAssetValue: Float
+    investedCapital: Float
+    averageReceivables: Float
+    averagePayables: Float
+    averageInventory: Float
+    daysSalesOutstanding: Float
+    daysPayablesOutstanding: Float
+    daysOfInventoryOnHand: Float
+    receivablesTurnover: Float
+    payablesTurnover: Float
+    inventoryTurnover: Float
+    roe: Float
+    capexPerShare: Float
+}
+
+type KeyMetricsTTM {
+    revenuePerShareTTM: Float
+    netIncomePerShareTTM: Float
+    operatingCashFlowPerShareTTM: Float
+    freeCashFlowPerShareTTM: Float
+    cashPerShareTTM: Float
+    bookValuePerShareTTM: Float
+    tangibleBookValuePerShareTTM: Float
+    shareholdersEquityPerShareTTM: Float
+    interestDebtPerShareTTM: Float
+    marketCapTTM: Float
+    enterpriseValueTTM: Float
+    peRatioTTM: Float
+    priceToSalesRatioTTM: Float
+    pocfratioTTM: Float
+    pfcfRatioTTM: Float
+    pbRatioTTM: Float
+    ptbRatioTTM: Float
+    evToSalesTTM: Float
+    enterpriseValueOverEBITDATTM: Float
+    evToOperatingCashFlowTTM: Float
+    evToFreeCashFlowTTM: Float
+    earningsYieldTTM: Float
+    freeCashFlowYieldTTM: Float
+    debtToEquityTTM: Float
+    debtToAssetsTTM: Float
+    netDebtToEBITDATTM: Float
+    currentRatioTTM: Float
+    interestCoverageTTM: Float
+    incomeQualityTTM: Float
+    dividendYieldTTM: Float
+    dividendYieldPercentageTTM: Float
+    payoutRatioTTM: Float
+    salesGeneralAndAdministrativeToRevenueTTM: Float
+    researchAndDevelopementToRevenueTTM: Float
+    intangiblesToTotalAssetsTTM: Float
+    capexToOperatingCashFlowTTM: Float
+    capexToRevenueTTM: Float
+    capexToDepreciationTTM: Float
+    stockBasedCompensationToRevenueTTM: Float
+    grahamNumberTTM: Float
+    roicTTM: Float
+    returnOnTangibleAssetsTTM: Float
+    grahamNetNetTTM: Float
+    workingCapitalTTM: Float
+    tangibleAssetValueTTM: Float
+    netCurrentAssetValueTTM: Float
+    investedCapitalTTM: Float
+    averageReceivablesTTM: Float
+    averagePayablesTTM: Float
+    averageInventoryTTM: Float
+    daysSalesOutstandingTTM: Float
+    daysPayablesOutstandingTTM: Float
+    daysOfInventoryOnHandTTM: Float
+    receivablesTurnoverTTM: Float
+    payablesTurnoverTTM: Float
+    inventoryTurnoverTTM: Float
+    roeTTM: Float
+    capexPerShareTTM: Float
+    dividendPerShareTTM: Float
+    debtToMarketCapTTM: Float
+}
+
+type RatiosTTM {
+    dividendYielTTM: Float
+    dividendYielPercentageTTM: Float
+    peRatioTTM: Float
+    pegRatioTTM: Float
+    payoutRatioTTM: Float
+    currentRatioTTM: Float
+    quickRatioTTM: Float
+    cashRatioTTM: Float
+    daysOfSalesOutstandingTTM: Float
+    daysOfInventoryOutstandingTTM: Float
+    operatingCycleTTM: Float
+    daysOfPayablesOutstandingTTM: Float
+    cashConversionCycleTTM: Float
+    grossProfitMarginTTM: Float
+    operatingProfitMarginTTM: Float
+    pretaxProfitMarginTTM: Float
+    netProfitMarginTTM: Float
+    effectiveTaxRateTTM: Float
+    returnOnAssetsTTM: Float
+    returnOnEquityTTM: Float
+    returnOnCapitalEmployedTTM: Float
+    netIncomePerEBTTTM: Float
+    ebtPerEbitTTM: Float
+    ebitPerRevenueTTM: Float
+    debtRatioTTM: Float
+    debtEquityRatioTTM: Float
+    longTermDebtToCapitalizationTTM: Float
+    totalDebtToCapitalizationTTM: Float
+    interestCoverageTTM: Float
+    cashFlowToDebtRatioTTM: Float
+    companyEquityMultiplierTTM: Float
+    receivablesTurnoverTTM: Float
+    payablesTurnoverTTM: Float
+    inventoryTurnoverTTM: Float
+    fixedAssetTurnoverTTM: Float
+    assetTurnoverTTM: Float
+    operatingCashFlowPerShareTTM: Float
+    freeCashFlowPerShareTTM: Float
+    cashPerShareTTM: Float
+    operatingCashFlowSalesRatioTTM: Float
+    freeCashFlowOperatingCashFlowRatioTTM: Float
+    cashFlowCoverageRatiosTTM: Float
+    shortTermCoverageRatiosTTM: Float
+    capitalExpenditureCoverageRatioTTM: Float
+    dividendPaidAndCapexCoverageRatioTTM: Float
+    priceBookValueRatioTTM: Float
+    priceToBookRatioTTM: Float
+    priceToSalesRatioTTM: Float
+    priceEarningsRatioTTM: Float
+    priceToFreeCashFlowsRatioTTM: Float
+    priceToOperatingCashFlowsRatioTTM: Float
+    priceCashFlowRatioTTM: Float
+    priceEarningsToGrowthRatioTTM: Float
+    priceSalesRatioTTM: Float
+    enterpriseValueMultipleTTM: Float
+    priceFairValueTTM: Float
+    dividendPerShareTTM: Float
+}
+
+type CashFlowGrowth {
+    symbol: String
+    date: String
+    period: String
+    calendarYear: Int
+    growthNetIncome: Float
+    growthDepreciationAndAmortization: Float
+    growthStockBasedCompensation: Float
+    growthChangeInWorkingCapital: Float
+    growthAccountsReceivables: Float
+    growthInventory: Float
+    growthAccountsPayables: Float
+    growthOtherWorkingCapital: Float
+    growthOtherNonCashItems: Float
+    growthNetCashProvidedByOperatingActivities: Float
+    growthInvestmentsInPropertyPlantAndEquipment: Float
+    growthAcquisitionsNet: Float
+    growthPurchasesOfInvestments: Float
+    growthSalesMaturitiesOfInvestments: Float
+    growthNetCashUsedForInvestingActivities: Float
+    growthDebtRepayment: Float
+    growthCommonStockIssued: Float
+    growthCommonStockRepurchased: Float
+    growthDeferredIncomeTax: Float
+    growthDividendsPaid: Float
+    growthNetCashUsedProvidedByFinancingActivities: Float
+    growthEffectOfForexChangesOnCash: Float
+    growthNetChangeInCash: Float
+    growthCashAtEndOfPeriod: Float
+    growthCashAtBeginningOfPeriod: Float
+    growthOperatingCashFlow: Float
+    growthCapitalExpenditure: Float
+    growthFreeCashFlow: Float
+    updatedAt: String
+    createdAt: String
+    growthOtherInvestingActivites: Float
+    growthOtherFinancingActivites: Float
+}
+
+type IncomeGrowth {
+    symbol: String
+    date: String
+    period: String
+    calendarYear: Int
+    growthRevenue: Float
+    growthCostOfRevenue: Float
+    growthGrossProfit: Float
+    growthGrossProfitRatio: Float
+    growthResearchAndDevelopmentExpenses: Float
+    growthGeneralAndAdministrativeExpenses: Float
+    growthSellingGeneralAndAdministrativeExpenses: Float
+    growthSellingAndMarketingExpenses: Float
+    growthOtherExpenses: Float
+    growthOperatingExpenses: Float
+    growthCostAndExpenses: Float
+    growthInterestExpense: Float
+    growthInterestIncome: Float
+    growthDepreciationAndAmortization: Float
+    growthEbitda: Float
+    growthEbitdaRatio: Float
+    growthOperatingIncome: Float
+    growthOperatingIncomeRatio: Float
+    growthTotalOtherIncomeExpensesNet: Float
+    growthIncomeBeforeTax: Float
+    growthIncomeBeforeTaxRatio: Float
+    growthIncomeTaxExpense: Float
+    growthNetIncome: Float
+    growthNetIncomeRatio: Float
+    growthEps: Float
+    growthEpsdiluted: Float
+    growthWeightedAverageShsOut: Float
+    growthWeightedAverageShsOutDil: Float
+    updatedAt: String
+    createdAt: String
+}
+
+type FinancialGrowth {
+    symbol: String
+    date: String
+    period: String
+    revenueGrowth: Float
+    grossProfitGrowth: Float
+    ebitgrowth: Float
+    operatingIncomeGrowth: Float
+    netIncomeGrowth: Float
+    epsgrowth: Float
+    epsdilutedGrowth: Float
+    weightedAverageSharesGrowth: Float
+    weightedAverageSharesDilutedGrowth: Float
+    dividendsperShareGrowth: Float
+    operatingCashFlowGrowth: Float
+    freeCashFlowGrowth: Float
+    tenYRevenueGrowthPerShare: Float
+    fiveYRevenueGrowthPerShare: Float
+    threeYRevenueGrowthPerShare: Float
+    tenYOperatingCFGrowthPerShare: Float
+    fiveYOperatingCFGrowthPerShare: Float
+    threeYOperatingCFGrowthPerShare: Float
+    tenYNetIncomeGrowthPerShare: Float
+    fiveYNetIncomeGrowthPerShare: Float
+    threeYNetIncomeGrowthPerShare: Float
+    tenYShareholdersEquityGrowthPerShare: Float
+    fiveYShareholdersEquityGrowthPerShare: Float
+    threeYShareholdersEquityGrowthPerShare: Float
+    tenYDividendperShareGrowthPerShare: Float
+    fiveYDividendperShareGrowthPerShare: Float
+    threeYDividendperShareGrowthPerShare: Float
+    receivablesGrowth: Float
+    inventoryGrowth: Float
+    assetGrowth: Float
+    bookValueperShareGrowth: Float
+    debtGrowth: Float
+    rdexpenseGrowth: Float
+    sgaexpensesGrowth: Float
+}
+
+type BalanceSheetGrowth {
+    symbol: String
+    date: String
+    period: String
+    calendarYear: Int
+    growthCashAndCashEquivalents: Float
+    growthShortTermInvestments: Float
+    growthCashAndShortTermInvestments: Float
+    growthNetReceivables: Float
+    growthInventory: Float
+    growthPreferredStock: Float
+    growthOtherCurrentAssets: Float
+    growthTotalCurrentAssets: Float
+    growthPropertyPlantEquipmentNet: Float
+    growthGoodwill: Float
+    growthIntangibleAssets: Float
+    growthGoodwillAndIntangibleAssets: Float
+    growthLongTermInvestments: Float
+    growthTaxAssets: Float
+    growthOtherNonCurrentAssets: Float
+    growthTotalNonCurrentAssets: Float
+    growthOtherAssets: Float
+    growthTotalAssets: Float
+    growthAccountPayables: Float
+    growthShortTermDebt: Float
+    growthTaxPayables: Float
+    growthCapitalLeaseObligations: Float
+    growthDeferredRevenue: Float
+    growthOtherCurrentLiabilities: Float
+    growthTotalCurrentLiabilities: Float
+    growthLongTermDebt: Float
+    growthDeferredRevenueNonCurrent: Float
+    growthDeferredTaxLiabilitiesNonCurrent: Float
+    growthOtherNonCurrentLiabilities: Float
+    growthTotalNonCurrentLiabilities: Float
+    growthOtherLiabilities: Float
+    growthTotalLiabilities: Float
+    growthCommonStock: Float
+    growthRetainedEarnings: Float
+    growthAccumulatedOtherComprehensiveIncomeLoss: Float
+    growthOthertotalStockholdersEquity: Float
+    growthTotalStockholdersEquity: Float
+    growthTotalLiabilitiesAndStockholdersEquity: Float
+    growthTotalInvestments: Float
+    growthTotalDebt: Float
+    growthNetDebt: Float
+}
+
+# Charts
+
+type IntradayChart {
+    date: String
+    open: Float
+    low: Float
+    high: Float
+    close: Float
+    volume: Int
+}
+
+type DEMA {
+    dema: Float
+}
+
+type TEMA {
+    tema: Float
+}
+
+type WMA {
+    wma: Float
+}
+
+type EMA {
+    ema: Float
+}
+
+type SMA {
+    sma: Float
+}
+
+# --- Market Data ---
+
+# Sector Perrformance
+
+type SectorPerformance {
+    sector: String
+    changesPercentage: String
+}
+
+# Historical Sector Performance
+
+type HistoricalSectorPerformance {
+    date: String
+    basicMaterialsChangesPercentage: Float
+    communicationServicesChangesPercentage: Float
+    consumerCyclicalChangesPercentage: Float
+    consumerDefensiveChangesPercentage: Float
+    energyChangesPercentage: Float
+    financialServicesChangesPercentage: Float
+    healthcareChangesPercentage: Float
+    industrialsChangesPercentage: Float
+    realEstateChangesPercentage: Float
+    technologyChangesPercentage: Float
+    utilitiesChangesPercentage: Float
+}
+
+# Type and quote applied for Commodities, Forex & Crypto
+
+type DataType {
+    symbol: String
+    name: String
+    currency: String
+    stockExchange: String
+    exchangeShortName: String
+}
+
+type DataTypeQuote {
+    symbol: String
+    name: String
+    price: Float
+    changesPercentage: Float
+    change: Float
+    dayLow: Float
+    dayHigh: Float
+    yearHigh: Float
+    yearLow: Float
+    marketCap: Float
+    priceAvg50: Float
+    priceAvg200: Float
+    volume: Float
+    avgVolume: Float
+    exchange: String
+    open: Float
+    previousClose: Float
+    eps: Float
+    pe: Float
+    earningsAnnouncement: String
+    sharesOutstanding: Int
+    timestamp: Int
+}
+
+type GlobalQuote {
+    symbol: String
+    open: Float
+    high: Float
+    low: Float
+    price: Float
+    volume: Int
+    latestTradingDay: String
+    previousClose: Float
+    change: Float
+    changePercent: String
+}
+
+
+
+# Also known as full quote
+
+type DataQuote {
+    price: Float
+    changesPercentage: Float
+    change: Float
+    dayLow: Float
+    dayHigh: Float
+    yearLow: Float
+    yearHigh: Float
+    priceAvgFifty: Float
+    priceAvgTwoHundred: Float
+    open: Float
+    prevClose: Float
+}
+
+# Valuation Details
+
+type DiscountedCashFlow {
+    symbol: String
+    date: String
+    dcf: Float
+    stockPrice: Float # The raw data returned is "Stock Price" to ensure to fix in frontend
+}
+
+type CompanyRating { # Same format as Historical Rating
+    symbol: String
+    date: String
+    rating: String
+    ratingScore: Int
+    ratingRecommendation: String
+    ratingDetailsDCFScore: Int
+    ratingDetailsDCFRecommendation: String
+    ratingDetailsROEScore: Int
+    ratingDetailsROERecommendation: String
+    ratingDetailsROAScore: Int
+    ratingDetailsROARecommendation: String
+    ratingDetailsDEScore: Int
+    ratingDetailsDERecommendation: String
+    ratingDetailsPEScore: Int
+    ratingDetailsPERecommendation: String
+    ratingDetailsPBScore: Int
+    ratingDetailsPBRecommendation: String
+}
+
+# Earnings
+
+type EarningsCalendar {
+    date: String
+    symbol: String
+    eps: Float
+    epsEstimated: Float
+    time: String
+    revenue: Float
+    revenueEstimated: Float
+    fiscalDateEnding: String
+    updatedFromDate: String
+}
+
+type EarningsSurprises {
+    date: String
+    symbol: String
+    actualEarningResult: Float
+    estimatedEarning: Float
+}
+
+# Dividends
+
+type DividendsCalendar {
+    date: String
+    label: String
+    adjDividend: Float
+    symbol: String
+    dividend: Float
+    recordDate: String
+    paymentDate: String
+    declarationDate: String
+}
+
+type DividendRecord {
+    date: String
+    label: String
+    adjDividend: Float
+    dividend: Float
+    recordDate: String
+    paymentDate: String
+    declarationDate: String
+}
+
+type DividendsHistorical {
+    symbol: String
+    historical: [DividendRecord]
+}
+
+# Economics Calendar
+
+type GlobalEvents {
+    date: String
+    event: String
+    country: String
+    currency: String
+    actual: Float
+    previous: Float
+    change: Float
+    changePercentage: Float
+    estimate: Float
+    impact: String
+}
+

@@ -1,0 +1,90 @@
+# Dependency directories
+client/node_modules/
+client/.pnp
+client/.pnp.js
+
+# Next.js build output
+client/.next/
+client/out/
+client/build/
+
+# Production build
+client/dist/
+
+# TypeScript compiled output
+client/tsconfig.tsbuildinfo
+client/*.tsbuildinfo
+client/lib/
+
+# Source maps
+client/*.map
+
+# Environment files
+client/.env
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+# Debugging
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# IDE and editor directories
+client/.idea/
+client/.vscode/
+client/*.sublime-workspace
+
+# OS generated files
+client/.DS_Store
+client.Thumbs.db
+
+# Testing
+client/coverage/
+client/.nyc_output
+
+# Build artifacts
+client/public/build/
+
+# Static generation artifacts
+client/public/prerendered/
+
+# Misc
+client/.eslintcache
+client/.next/cache
+client/.jest/
+
+server/target/
+server/.mvn/wrapper/maven-wrapper.jar
+server/HELP.md
+server/!.mvn/wrapper/maven-wrapper.jar
+server/!/src/main//target/
+server/!/src/test//target/
+
+server/.apt_generated
+server/.classpath
+server/.factorypath
+server/.project
+server/.settings
+server/.springBeans
+server/.sts4-cache
+
+server/.idea
+server/.iws
+server/.iml
+server/*.ipr
+
+server/nbproject/private/
+server/nbbuild/
+server/dist/
+server/nbdist/
+server/.nb-gradle/
+server/build/
+server/!/src/main//build/
+server/!/src/test//build/
+
+server/.env
+server/docker-compose.yml
+server/src/main/resources/application.properties
+server/target/
